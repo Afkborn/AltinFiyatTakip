@@ -5,4 +5,36 @@
     android:id="@+id/constraintLayout_AltinEkle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.AltinEkleFragment"/>
+    tools:context=".Fragment.AltinEkleFragment">
+
+    <Spinner
+        android:id="@+id/spinner_altinlar"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_altinlar"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/textView_altinlar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="@string/altinlar"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_altinlar"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="@+id/spinner_altinlar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_sonGuncelleme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Son Güncelleme Tarihi: 19/06/2022 17:18.15" />
+</androidx.constraintlayout.widget.ConstraintLayout>
