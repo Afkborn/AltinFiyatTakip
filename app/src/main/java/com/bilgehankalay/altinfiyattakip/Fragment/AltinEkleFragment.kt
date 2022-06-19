@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.RadioGroup
 import com.bilgehankalay.altinfiyattakip.Model.Altin
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
+import com.bilgehankalay.altinfiyattakip.R
 import com.bilgehankalay.altinfiyattakip.Response.AltinlarResponse
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentAltinEkleBinding
 import retrofit2.Call
@@ -39,7 +41,9 @@ class AltinEkleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setSpinnerListener()
+        setRadioButtonListener()
         altinlariGetir()
+        showFiyatConstraint()
 
     }
 
@@ -85,13 +89,34 @@ class AltinEkleFragment : Fragment() {
         binding.spinnerAltinlar.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 seciliAltin = altinlarList.get(p2)
-                println(seciliAltin)
+                binding.textViewAltinAlisFiyat.text = seciliAltin.alisFiyati.toString()
+                binding.textViewAltinSatisFiyat.text = seciliAltin.satisFiyati.toString()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
         }
+    }
+
+    private fun setRadioButtonListener(){
+        binding.radioGroupSecim.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener{ _, checkdId ->
+            if (checkdId == R.id.radioButton_simdiAldim){
+                showFiyatConstraint()
+            }
+            else if (checkdId == R.id.radioButton_gecmisZamanliAldim){
+                showTarihConstraint()
+            }
+        })
+    }
+
+    private fun showFiyatConstraint(){
+        binding.constraintLayoutFiyat.visibility = View.VISIBLE
+        binding.constraintLayoutTarih.visibility = View.INVISIBLE
+    }
+    private fun showTarihConstraint(){
+        binding.constraintLayoutFiyat.visibility = View.INVISIBLE
+        binding.constraintLayoutTarih.visibility = View.VISIBLE
     }
 
 

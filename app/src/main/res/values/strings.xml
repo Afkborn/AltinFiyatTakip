@@ -5,4 +5,12 @@
     <string name="ana_sayfa">Ana Sayfa</string>
     <string name="altin_ekle">Altın Ekle</string>
     <string name="altinlar">Altınlar</string>
+    <string name="simdi_aldim">Şimdi Aldım</string>
+    <string name="gecmis_zamanli_aldim">Geçmiş Zamanlı Aldım</string>
+    <string name="ekle">Ekle</string>
+    <string name="uc_nokta">...</string>
+    <string name="gg_aa_yyyy">GG:AA:YYYY</string>
+    <string name="fiyat">Fiyat</string>
+    <string name="alis_fiyati">Alış Fiyatı</string>
+    <string name="satis_fiyati">Satış Fiyatı</string>
 </resources>
