@@ -7,5 +7,6 @@ import com.google.gson.annotations.SerializedName
 
 data class DegerliResponse(
     @SerializedName("status") @Expose var status : Int,
+
     @SerializedName("data") @Expose var altinlar : List<Degerli>
 )

@@ -9,9 +9,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RadioGroup
 import com.bilgehankalay.altinfiyattakip.Model.Altin
+import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.R
 import com.bilgehankalay.altinfiyattakip.Response.AltinlarResponse
+import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentAltinEkleBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -20,9 +22,9 @@ import retrofit2.Response
 
 class AltinEkleFragment : Fragment() {
     private lateinit var binding : FragmentAltinEkleBinding
-    var altinlarList : ArrayList<Altin> = arrayListOf()
 
 
+    var degerliList : ArrayList<Degerli> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,15 +42,11 @@ class AltinEkleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        degerliGetir()
         setRadioButtonListener()
         showFiyatConstraint()
 
     }
-
-
-
-
 
     private fun setRadioButtonListener(){
         binding.radioGroupSecim.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener{ _, checkdId ->
@@ -68,6 +66,30 @@ class AltinEkleFragment : Fragment() {
     private fun showTarihConstraint(){
         binding.constraintLayoutFiyat.visibility = View.INVISIBLE
         binding.constraintLayoutTarih.visibility = View.VISIBLE
+    }
+
+
+    private fun degerliGetir(){
+        ApiUtils.altinDAOInterfaceGetir().altinlariAlV2().enqueue(
+            object : Callback<DegerliResponse>{
+                override fun onResponse(
+                    call: Call<DegerliResponse>,
+                    response: Response<DegerliResponse>
+                ) {
+                    val tempList = response.body()?.altinlar
+                    tempList?.let {
+                        degerliList = it as ArrayList<Degerli>
+                    }
+
+                    println("Güncelleme başarılı!")
+                }
+
+                override fun onFailure(call: Call<DegerliResponse>, t: Throwable) {
+                    println(t.localizedMessage)
+                }
+
+            }
+        )
     }
 
 

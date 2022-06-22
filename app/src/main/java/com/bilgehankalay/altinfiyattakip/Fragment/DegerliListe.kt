@@ -43,10 +43,7 @@ class DegerliListe : Fragment() {
                 degerliGetir()
                 mainHandler.postDelayed(this,10000)
             }
-
         })
-
-
     }
 
     private fun degerliGetir(){
