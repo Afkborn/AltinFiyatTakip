@@ -13,4 +13,7 @@
     <string name="fiyat">Fiyat</string>
     <string name="alis_fiyati">Alış Fiyatı</string>
     <string name="satis_fiyati">Satış Fiyatı</string>
+    <string name="canli_piyasa">Canlı Piyasa</string>
+    <string name="degerli_card_satis_text">Satış:</string>
+    <string name="deger_card_alis_text">Alış:</string>
 </resources>

@@ -21,8 +21,8 @@ import retrofit2.Response
 class AltinEkleFragment : Fragment() {
     private lateinit var binding : FragmentAltinEkleBinding
     var altinlarList : ArrayList<Altin> = arrayListOf()
-    val altinIsimListe : ArrayList<String> = arrayListOf()
-    private lateinit var seciliAltin : Altin
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,64 +40,15 @@ class AltinEkleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setSpinnerListener()
+
         setRadioButtonListener()
-        altinlariGetir()
         showFiyatConstraint()
 
     }
 
-    private fun altinlariGetir(){
-        ApiUtils.altinDAOInterfaceGetir().altinlariAl().enqueue(
-            object : Callback<AltinlarResponse> {
-                override fun onResponse(
-                    call: Call<AltinlarResponse>,
-                    response: Response<AltinlarResponse>
-                ) {
-                    val tempList = response.body()?.altinlar
-                    tempList?.let {
-                        altinlarList = it as ArrayList<Altin>
-                    }
-                    spinnerAltinAdlariYukle()
-                }
 
-                override fun onFailure(call: Call<AltinlarResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
 
-            }
-        )
-    }
 
-    private fun spinnerAltinAdlariYukle(){
-        altinIsimListe.clear()
-        altinlarList.forEach {
-            altinIsimListe.add(it.altinAdi)
-        }
-        val adapter : ArrayAdapter<*>
-        adapter = ArrayAdapter(
-            requireActivity(),
-            android.R.layout.simple_spinner_item,
-            altinIsimListe
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerAltinlar.adapter = adapter
-        adapter.notifyDataSetChanged()
-    }
-
-    private fun setSpinnerListener(){
-        binding.spinnerAltinlar.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                seciliAltin = altinlarList.get(p2)
-                binding.textViewAltinAlisFiyat.text = seciliAltin.alisFiyati.toString()
-                binding.textViewAltinSatisFiyat.text = seciliAltin.satisFiyati.toString()
-            }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-
-        }
-    }
 
     private fun setRadioButtonListener(){
         binding.radioGroupSecim.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener{ _, checkdId ->

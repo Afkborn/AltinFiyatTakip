@@ -19,7 +19,6 @@ import retrofit2.Response
 class HomeScreen : Fragment() {
     private lateinit var binding : FragmentHomeScreenBinding
 
-    var altinlarList : ArrayList<Altin> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,29 +35,9 @@ class HomeScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        altinlariGetir()
     }
 
-    private fun altinlariGetir(){
-        ApiUtils.altinDAOInterfaceGetir().altinlariAl().enqueue(
-            object : Callback<AltinlarResponse> {
-                override fun onResponse(
-                    call: Call<AltinlarResponse>,
-                    response: Response<AltinlarResponse>
-                ) {
-                    val tempList = response.body()?.altinlar
-                    tempList?.let {
-                        altinlarList = it as ArrayList<Altin>
-                    }
-                }
 
-                override fun onFailure(call: Call<AltinlarResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-
-            }
-        )
-    }
 
 }
 

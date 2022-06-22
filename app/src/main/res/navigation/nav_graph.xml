@@ -14,4 +14,9 @@
         android:name="com.bilgehankalay.altinfiyattakip.Fragment.AltinEkleFragment"
         android:label="fragment_altin_ekle"
         tools:layout="@layout/fragment_altin_ekle" />
+    <fragment
+        android:id="@+id/degerliListe"
+        android:name="com.bilgehankalay.altinfiyattakip.Fragment.DegerliListe"
+        android:label="fragment_degerli_liste"
+        tools:layout="@layout/fragment_degerli_liste" />
 </navigation>

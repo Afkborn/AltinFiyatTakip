@@ -17,16 +17,3 @@ data class Altin(
     @SerializedName("tarih") @Expose var tarih : Float
     ) : Serializable
 
-/*
-id
-dataFlag
-altinAdi
-aciklama
-gramaj
-saflik
-ayar
-alisFiyati
-satisFiyati
-tarih
-
- */
