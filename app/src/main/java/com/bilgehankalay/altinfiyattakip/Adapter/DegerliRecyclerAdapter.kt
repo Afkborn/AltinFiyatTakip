@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.R
 import com.bilgehankalay.altinfiyattakip.databinding.DegerliCardTasarimBinding
-import java.text.NumberFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 class DegerliRecyclerAdapter(private var degerliList : ArrayList<Degerli>) : RecyclerView.Adapter<DegerliRecyclerAdapter.DegerliCardTasarim>() {
@@ -22,7 +20,7 @@ class DegerliRecyclerAdapter(private var degerliList : ArrayList<Degerli>) : Rec
     override fun onBindViewHolder(holder: DegerliCardTasarim, position: Int) {
         val degerli = degerliList[position]
         holder.degerliCardTasarimBinding.also {
-            val sembol = getSembol(degerli.aciklama)
+            val sembol = degerli.getSembol()
             if (degerli.alis_dir == -1){
                 it.imageViewAlisFiyati.setImageResource(R.drawable.red_down_arrow)
             }
@@ -45,27 +43,7 @@ class DegerliRecyclerAdapter(private var degerliList : ArrayList<Degerli>) : Rec
     override fun getItemCount(): Int {
         return degerliList.size
     }
-    private fun getSembol(aciklama:String) : String{
-        val sembolList = aciklama.split("/")
-        when (sembolList[1]){
-            "TL"  -> return "₺"
-            "Dolar" -> return "$"
-            "Euro" -> return "€"
-            "Bulgar Levası" -> return "лв"
-            "İsrail Şekeli" -> return "ILS"
-            "Fas Dirhemi" -> return "MAD"
-            "Katar Riyali" -> return "QAR"
-            "Suudi Arabistan Riyali" -> return "SAR"
-            "İsveç Kronu" -> return "kr"
-            "Japon Yeni" -> return "¥"
-            "Norveç Kronu" -> return "NOK"
-            "Ruble" -> return "₽"
-            "İsviçre Frangı" -> return "CHF"
-            "Kanada Doları" -> return " CAD$"
-            "Danimarka Kronu" -> return "DKK"
-        }
-        return ""
-    }
+
 
 
 

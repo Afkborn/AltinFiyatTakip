@@ -16,11 +16,18 @@ interface AltinDAOInterface {
     @GET("/api/v2/altinlar")
     fun altinlariAlV2() : Call<DegerliResponse>
 
+    @GET("/api/v2/altinlar/{code}")
+    fun altinAlV2(
+        @Path("code")  code : String
+    ) : Call<DegerliResponse>
+
     @POST("/api/v2/altinlar/{code}")
     fun dateAl(
         @Path("code") code : String,
         @Query("t1") t1 : String,
         @Query("t2") t2 : String
     ) : Call<PostAlisSatisResponse>
+
+
 
 }

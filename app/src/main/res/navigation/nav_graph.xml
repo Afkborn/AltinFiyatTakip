@@ -13,10 +13,26 @@
         android:id="@+id/altinEkleFragment"
         android:name="com.bilgehankalay.altinfiyattakip.Fragment.AltinEkleFragment"
         android:label="fragment_altin_ekle"
-        tools:layout="@layout/fragment_altin_ekle" />
+        tools:layout="@layout/fragment_altin_ekle" >
+        <action
+            android:id="@+id/altinEkle_to_onay"
+            app:destination="@id/onayFragment" />
+    </fragment>
     <fragment
         android:id="@+id/degerliListe"
         android:name="com.bilgehankalay.altinfiyattakip.Fragment.DegerliListe"
         android:label="fragment_degerli_liste"
         tools:layout="@layout/fragment_degerli_liste" />
+    <fragment
+        android:id="@+id/onayFragment"
+        android:name="com.bilgehankalay.altinfiyattakip.Fragment.OnayFragment"
+        android:label="fragment_onay"
+        tools:layout="@layout/fragment_onay" >
+        <argument
+            android:name="degerliObject"
+            app:argType="com.bilgehankalay.altinfiyattakip.Model.Degerli" />
+        <argument
+            android:name="guncelMi"
+            app:argType="boolean" />
+    </fragment>
 </navigation>

@@ -36,7 +36,7 @@ class HomeScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TEST
+
         binding.button.setOnClickListener {
             ApiUtils.altinDAOInterfaceGetir().dateAl("AYAR22","2012-09-10","2012-09-11").enqueue(
                 object : Callback<PostAlisSatisResponse>{

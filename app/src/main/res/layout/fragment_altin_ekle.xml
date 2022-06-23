@@ -8,7 +8,7 @@
     tools:context=".Fragment.AltinEkleFragment">
 
     <Spinner
-        android:id="@+id/spinner_altinlar"
+        android:id="@+id/spinner_degerli"
         android:layout_width="250dp"
         android:layout_height="48dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,9 +23,9 @@
         android:layout_marginTop="56dp"
         android:text="@string/altinlar"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/spinner_altinlar"
+        app:layout_constraintEnd_toEndOf="@+id/spinner_degerli"
         app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="@+id/spinner_altinlar"
+        app:layout_constraintStart_toStartOf="@+id/spinner_degerli"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -43,11 +43,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_altinlar">
+        app:layout_constraintTop_toBottomOf="@+id/spinner_degerli">
 
         <RadioButton
             android:id="@+id/radioButton_simdiAldim"
@@ -81,86 +81,187 @@
         android:layout_marginTop="24dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup_secim"
         tools:visibility="gone">
 
         <EditText
-            android:id="@+id/editTextDate"
-            android:layout_width="wrap_content"
+            android:id="@+id/editText_date"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/gg_aa_yyyy"
             android:inputType="date"
             android:minHeight="48dp"
             android:textColorHint="#757575"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/button_tarihSec"
             android:layout_width="49dp"
             android:layout_height="48dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/uc_nokta"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextDate"
-            app:layout_constraintStart_toEndOf="@+id/editTextDate"
-            app:layout_constraintTop_toTopOf="@+id/editTextDate" />
+            app:layout_constraintBottom_toBottomOf="@+id/editText_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/editText_date" />
+
+        <EditText
+            android:id="@+id/editText_gecmisMiktar"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="miktar"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@+id/editText_date"
+            app:layout_constraintHorizontal_bias="0.516"
+            app:layout_constraintStart_toStartOf="@+id/editText_date"
+            app:layout_constraintTop_toBottomOf="@+id/editText_date"
+            tools:ignore="SpeakableTextPresentCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout_fiyat"
+    <LinearLayout
+        android:id="@+id/altinEkle_linearLayout_fiyat"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:visibility="visible"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup_secim"
         tools:visibility="visible">
 
-        <TextView
-            android:id="@+id/textView_altinSatisFiyat"
+        <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
-            tools:text="6.435,86 ₺" />
+            android:layout_weight="2" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/altinEkle_textView_alis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="@string/alis_fiyati"
+            android:layout_weight="1"
+            android:text="@string/deger_card_alis_text"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/altinEkle_imageView_alisFiyati"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            tools:ignore="ImageContrastCheck"
+            tools:srcCompat="@drawable/green_up_arrow" />
+
+        <TextView
+            android:id="@+id/altinEkle_textView_alisFiyati"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="2"
             android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="17,341 ₺" />
+
+        <TextView
+            android:id="@+id/altinEkle_textView_satis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_weight="1"
+            android:text="@string/degerli_card_satis_text"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/altinEkle_imageView_satisFiyati"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            tools:ignore="ImageContrastCheck"
+            tools:srcCompat="@drawable/green_up_arrow" />
+
+        <TextView
+            android:id="@+id/altinEkle_textView_satisFiyati"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="2"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="17,375 ₺" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout_miktarSimdi"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/altinEkle_linearLayout_fiyat"
+        tools:visibility="visible">
+
+        <EditText
+            android:id="@+id/altinEkle_editText_from"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:ems="10"
+            android:hint="from"
+            android:inputType="numberDecimal"
+            android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/altinEkle_editText_to"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:text="@string/satis_fiyati"
-            android:textSize="20sp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:hint="to"
+            android:inputType="numberDecimal"
+            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:src="@drawable/swap"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/altinEkle_editText_to"
+            app:layout_constraintStart_toEndOf="@+id/altinEkle_editText_from"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:id="@+id/textView_altinAlisFiyat"
+            android:id="@+id/altinEkle_textView_fromText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            tools:text="6.435,86 ₺" />
+            app:layout_constraintEnd_toEndOf="@+id/altinEkle_editText_from"
+            app:layout_constraintStart_toStartOf="@+id/altinEkle_editText_from"
+            app:layout_constraintTop_toBottomOf="@+id/altinEkle_editText_from"
+            tools:text="Dolar" />
+
+        <TextView
+            android:id="@+id/altinEkle_textView_toText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/altinEkle_editText_to"
+            app:layout_constraintStart_toStartOf="@+id/altinEkle_editText_to"
+            app:layout_constraintTop_toBottomOf="@+id/altinEkle_editText_to"
+            tools:text="TL" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

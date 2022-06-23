@@ -16,5 +16,25 @@ data class Degerli(
     @SerializedName("yuksek") @Expose var yuksek : Float,
     @SerializedName("kapanis") @Expose var kapanis : Float,
 ) : Serializable {
-
+    fun getSembol(type : Int = 1) : String{
+        val sembolList = aciklama.split("/")
+        when (sembolList[type]){
+            "TL"  -> return "₺"
+            "Dolar" -> return "$"
+            "Euro" -> return "€"
+            "Bulgar Levası" -> return "лв"
+            "İsrail Şekeli" -> return "ILS"
+            "Fas Dirhemi" -> return "MAD"
+            "Katar Riyali" -> return "QAR"
+            "Suudi Arabistan Riyali" -> return "SAR"
+            "İsveç Kronu" -> return "kr"
+            "Japon Yeni" -> return "¥"
+            "Norveç Kronu" -> return "NOK"
+            "Ruble" -> return "₽"
+            "İsviçre Frangı" -> return "CHF"
+            "Kanada Doları" -> return " CAD$"
+            "Danimarka Kronu" -> return "DKK"
+        }
+        return ""
+    }
 }
