@@ -16,7 +16,9 @@
         tools:layout="@layout/fragment_altin_ekle" >
         <action
             android:id="@+id/altinEkle_to_onay"
-            app:destination="@id/onayFragment" />
+            app:destination="@id/onayFragment"
+            app:popUpTo="@id/altinEkleFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/degerliListe"
@@ -34,5 +36,11 @@
         <argument
             android:name="guncelMi"
             app:argType="boolean" />
+        <argument
+            android:name="miktar"
+            app:argType="float" />
+        <action
+            android:id="@+id/onay_to_altinEkle"
+            app:destination="@id/altinEkleFragment" />
     </fragment>
 </navigation>

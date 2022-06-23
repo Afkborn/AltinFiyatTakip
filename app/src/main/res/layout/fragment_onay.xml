@@ -20,6 +20,18 @@
         app:layout_constraintTop_toBottomOf="@+id/onay_textView_alis" />
 
     <TextView
+        android:id="@+id/onay_textView_ozet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onay_textView_satis"
+        tools:text="5 Dolar = 100 TL" />
+
+    <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -29,7 +41,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/onay_textView_tarih" />
 
     <TextView
         android:id="@+id/onay_textView_alis"
@@ -61,32 +73,32 @@
         android:id="@+id/onay_fab_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:clickable="true"
         android:src="@drawable/check"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout_guncel" />
+        app:layout_constraintTop_toBottomOf="@+id/onay_textView_ozet" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/onay_fab_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:clickable="true"
         android:src="@drawable/close"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout_guncel" />
+        app:layout_constraintTop_toBottomOf="@+id/onay_textView_ozet" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout_guncel"
         android:layout_width="409dp"
         android:layout_height="218dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/onay_textView_satis">
+        app:layout_constraintTop_toBottomOf="@+id/onay_fab_ok">
 
         <TextView
             android:id="@+id/onay_textView_sayac"
@@ -99,4 +111,17 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="10 saniye" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/onay_textView_tarih"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TARİH" />
 </androidx.constraintlayout.widget.ConstraintLayout>

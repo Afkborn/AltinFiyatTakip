@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
@@ -21,6 +22,7 @@ import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.R
 
 import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
+import com.bilgehankalay.altinfiyattakip.Response.PostAlisSatisResponse
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentAltinEkleBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,6 +41,8 @@ class AltinEkleFragment : Fragment() {
     private lateinit var dayMonthYearText : String
 
     private var alinacakMiktar : Float = 0F
+    var tarihT1 = ""
+    var tarihT2 = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -54,8 +58,10 @@ class AltinEkleFragment : Fragment() {
 
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         isLoaded = false
         setRadioButtonListener()
         showFiyatConstraint()
@@ -66,12 +72,49 @@ class AltinEkleFragment : Fragment() {
         }
         binding.buttonEkle.setOnClickListener {
             if (guncelMi){
-                val gecisAction = AltinEkleFragmentDirections.altinEkleToOnay(seciliDegerli,true)
+                val gecisAction = AltinEkleFragmentDirections.altinEkleToOnay(seciliDegerli,true, alinacakMiktar)
                 findNavController().navigate(gecisAction)
             }
             else{
-                val gecisAction = AltinEkleFragmentDirections.altinEkleToOnay(seciliDegerli,false)
-                findNavController().navigate(gecisAction)
+                if (tarihT1 == "" || tarihT2 == ""){
+                    Toast.makeText(requireContext(),"Tarih seçin",Toast.LENGTH_LONG).show()
+                }
+                else{
+                    ApiUtils.altinDAOInterfaceGetir().dateAl(seciliDegerli.code,tarihT1,tarihT2).enqueue(
+                        object : Callback<PostAlisSatisResponse>{
+                            override fun onResponse(
+                                call: Call<PostAlisSatisResponse>,
+                                response: Response<PostAlisSatisResponse>
+                            ) {
+                                //val tempDegerli = response.body()?.altinlar!!.get(0)
+                                val tempDegerli = response.body()?.altinlar
+                                if (tempDegerli != null){
+                                    val gelenDegerli = tempDegerli[0]
+                                    gelenDegerli.code = seciliDegerli.code
+                                    gelenDegerli.aciklama = seciliDegerli.aciklama
+                                    val gecisAction = AltinEkleFragmentDirections.altinEkleToOnay(gelenDegerli,false, alinacakMiktar)
+                                    findNavController().navigate(gecisAction)
+                                }
+                                else{
+                                    Toast.makeText(requireContext(),"Seçili tarihe ait veri bulunamadı",Toast.LENGTH_LONG).show()
+                                }
+
+
+                            }
+
+                            override fun onFailure(
+                                call: Call<PostAlisSatisResponse>,
+                                t: Throwable
+                            ) {
+                                Toast.makeText(requireContext(),"Sunucu hatası daha sonra tekrar deneyin",Toast.LENGTH_LONG).show()
+                            }
+
+                        }
+                    )
+
+                }
+
+
             }
 
         }
@@ -95,11 +138,10 @@ class AltinEkleFragment : Fragment() {
                 binding.altinEkleTextViewSatisFiyati.text = "${seciliDegerli.satis} ${seciliDegerli.getSembol()}"
                 binding.altinEkleTextViewAlisFiyati.text = "${seciliDegerli.alis} ${seciliDegerli.getSembol()}"
 
-                if (guncelMi){
-                    val splitedAciklama = seciliDegerli.aciklama.split("/")
-                    binding.altinEkleTextViewFromText.text = splitedAciklama[0]
-                    binding.altinEkleTextViewToText.text = splitedAciklama[1]
-                }
+                val splitedAciklama = seciliDegerli.aciklama.split("/")
+                binding.altinEkleTextViewFromText.text = splitedAciklama[0]
+                binding.altinEkleTextViewToText.text = splitedAciklama[1]
+                binding.altinEkleTextViewFromTextTarih.text = splitedAciklama[0]
 
                 if (seciliDegerli.alis_dir == -1){
                     binding.altinEkleImageViewAlisFiyati.setImageResource(R.drawable.red_down_arrow)
@@ -154,6 +196,7 @@ class AltinEkleFragment : Fragment() {
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
+
         val dpd = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener{ _, year, monthOfYear, dayOfMonth->
             var monthOfYearReal = (monthOfYear + 1).toString()
             var dayOfMonthReal = dayOfMonth.toString()
@@ -164,6 +207,11 @@ class AltinEkleFragment : Fragment() {
                 dayOfMonthReal = "0${dayOfMonthReal}"
             }
             dayMonthYearText = "${dayOfMonthReal}.${monthOfYearReal}.${year}"
+            c.add(Calendar.DATE,1)
+            tarihT1 = "${year}-${monthOfYear+1}-${dayOfMonth}"
+            tarihT2 = "${year}-${monthOfYear+1}-${dayOfMonth+1}"
+            println(tarihT1)
+            println(tarihT2)
             binding.editTextDate.setText(dayMonthYearText)
         }, year, month, day)
         dpd.show()
@@ -234,6 +282,26 @@ class AltinEkleFragment : Fragment() {
 
         })
 
+        binding.altinEkleEditTextGecmisMiktar.addTextChangedListener(object  : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0!!.length >= 0){
+                    val p0F = p0.toString().toFloatOrNull()
+                    if (p0F != null){
+                        alinacakMiktar = p0F
+                    }
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+
+            }
+
+        })
 
 
 
