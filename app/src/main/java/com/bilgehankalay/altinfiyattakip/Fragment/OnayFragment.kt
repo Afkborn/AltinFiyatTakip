@@ -79,7 +79,6 @@ class OnayFragment : Fragment() {
     private fun degerliYukle(){
         val splitedAciklama = gelenDegerli.aciklama.split("/")
 
-
         binding.onayTextViewSatis.text = "${gelenDegerli.satis} ${gelenDegerli.getSembol()}"
         binding.onayTextViewAlis.text = "${gelenDegerli.alis} ${gelenDegerli.getSembol()}"
         binding.onayTextViewOzet.text = "${miktar} ${splitedAciklama[0]} = ${miktar * gelenDegerli.satis} ${splitedAciklama[1]}"

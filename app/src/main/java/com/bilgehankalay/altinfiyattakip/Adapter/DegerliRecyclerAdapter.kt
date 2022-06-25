@@ -1,5 +1,6 @@
 package com.bilgehankalay.altinfiyattakip.Adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,18 +21,23 @@ class DegerliRecyclerAdapter(private var degerliList : ArrayList<Degerli>) : Rec
     override fun onBindViewHolder(holder: DegerliCardTasarim, position: Int) {
         val degerli = degerliList[position]
         holder.degerliCardTasarimBinding.also {
+            println(degerli)
             val sembol = degerli.getSembol()
             if (degerli.alis_dir == -1){
                 it.imageViewAlisFiyati.setImageResource(R.drawable.red_down_arrow)
+                it.textViewAlisFiyati.setTextColor(Color.parseColor("#FF0000"))
             }
             else if (degerli.alis_dir == 1){
                 it.imageViewAlisFiyati.setImageResource(R.drawable.green_up_arrow)
+                it.textViewAlisFiyati.setTextColor(Color.parseColor("#42FF00"))
             }
             if (degerli.satis_dir == -1){
                 it.imageViewSatisFiyati.setImageResource(R.drawable.red_down_arrow)
+                it.textViewSatisFiyati.setTextColor(Color.parseColor("#FF0000"))
             }
             else if (degerli.satis_dir == 1){
                 it.imageViewSatisFiyati.setImageResource(R.drawable.green_up_arrow)
+                it.textViewSatisFiyati.setTextColor(Color.parseColor("#42FF00"))
             }
             it.textViewAciklama.text = degerli.aciklama
             it.textViewAlisFiyati.text = "${degerli.alis} ${sembol}"

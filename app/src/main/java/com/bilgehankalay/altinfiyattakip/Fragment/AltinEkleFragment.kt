@@ -30,6 +30,7 @@ import retrofit2.Response
 
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 
 class AltinEkleFragment : Fragment() {
@@ -43,9 +44,10 @@ class AltinEkleFragment : Fragment() {
     private var alinacakMiktar : Float = 0F
     var tarihT1 = ""
     var tarihT2 = ""
-
+    private var ui_epoch = 0F
     private var degerliIsimlerListe : ArrayList<String> = arrayListOf()
     private lateinit var spinnerAdapter : ArrayAdapter<*>
+    var isClickeble_Ekle = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null){
@@ -109,38 +111,64 @@ class AltinEkleFragment : Fragment() {
                 if (tarihT1 == "" || tarihT2 == ""){
                     Toast.makeText(requireContext(),"Tarih seçin",Toast.LENGTH_LONG).show()
                 }
+                else if ( binding.altinEkleEditTextGecmisMiktar.text.toString().toFloat()<= 0F || binding.altinEkleEditTextGecmisMiktar.text.toString().toFloatOrNull() == null ){
+                    Toast.makeText(requireContext(),"Bir değer girin ",Toast.LENGTH_LONG).show()
+                }
                 else{
-                    ApiUtils.altinDAOInterfaceGetir().dateAl(seciliDegerli.code,tarihT1,tarihT2).enqueue(
-                        object : Callback<PostAlisSatisResponse>{
-                            override fun onResponse(
-                                call: Call<PostAlisSatisResponse>,
-                                response: Response<PostAlisSatisResponse>
-                            ) {
-                                //val tempDegerli = response.body()?.altinlar!!.get(0)
-                                val tempDegerli = response.body()?.altinlar
-                                if (tempDegerli != null){
-                                    val gelenDegerli = tempDegerli[0]
-                                    gelenDegerli.code = seciliDegerli.code
-                                    gelenDegerli.aciklama = seciliDegerli.aciklama
-                                    val gecisAction = AltinEkleFragmentDirections.altinEkleToOnay(gelenDegerli,false, alinacakMiktar)
-                                    findNavController().navigate(gecisAction)
-                                }
-                                else{
-                                    Toast.makeText(requireContext(),"Seçili tarihe ait veri bulunamadı",Toast.LENGTH_LONG).show()
+                    if (isClickeble_Ekle){
+                        isClickeble_Ekle = !isClickeble_Ekle
+                        ApiUtils.altinDAOInterfaceGetir().dateAl(seciliDegerli.code,tarihT1,tarihT2).enqueue(
+                            object : Callback<PostAlisSatisResponse>{
+                                override fun onResponse(
+                                    call: Call<PostAlisSatisResponse>,
+                                    response: Response<PostAlisSatisResponse>
+                                ) {
+
+                                    val tempDegerli = response.body()?.altinlar
+                                    if (tempDegerli != null){
+                                        // temp degerli arasında birden fazla tarih olabilir bizim tarihimize en yakın olanı al.
+
+                                        var enYakinTarih = 9999999999
+                                        var enYakinIndex = 0
+                                        tempDegerli.forEachIndexed { index, degerli ->
+                                            var fark = degerli.tarih.toLong() - ui_epoch
+                                            fark = abs(fark)
+
+                                            println("${degerli.tarih.toLong()}, ${ui_epoch}, ${fark}")
+                                            if ( fark < enYakinTarih ){
+                                                enYakinIndex = index
+                                                enYakinTarih = fark.toLong()
+                                            }
+                                        }
+                                        val gelenDegerli = tempDegerli[enYakinIndex]
+                                        println(gelenDegerli)
+                                        gelenDegerli.code = seciliDegerli.code
+                                        gelenDegerli.aciklama = seciliDegerli.aciklama
+                                        val gecisAction = AltinEkleFragmentDirections.altinEkleToOnay(gelenDegerli,false, alinacakMiktar)
+                                        findNavController().navigate(gecisAction)
+                                    }
+                                    else{
+                                        Toast.makeText(requireContext(),"Seçili tarihe ait veri bulunamadı",Toast.LENGTH_LONG).show()
+                                        isClickeble_Ekle  = !isClickeble_Ekle
+                                    }
+
+
                                 }
 
+                                override fun onFailure(
+                                    call: Call<PostAlisSatisResponse>,
+                                    t: Throwable
+                                ) {
+                                    Toast.makeText(requireContext(),"Sunucu hatası daha sonra tekrar deneyin",Toast.LENGTH_LONG).show()
+                                }
 
                             }
+                        )
+                    }
+                    else{
+                        Toast.makeText(requireContext(),"Yanıt bekleniyor.",Toast.LENGTH_LONG).show()
+                    }
 
-                            override fun onFailure(
-                                call: Call<PostAlisSatisResponse>,
-                                t: Throwable
-                            ) {
-                                Toast.makeText(requireContext(),"Sunucu hatası daha sonra tekrar deneyin",Toast.LENGTH_LONG).show()
-                            }
-
-                        }
-                    )
 
                 }
 
@@ -222,20 +250,23 @@ class AltinEkleFragment : Fragment() {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         val dpd = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener{ _, year, monthOfYear, dayOfMonth->
-            var monthOfYearReal = (monthOfYear + 1).toString()
-            var dayOfMonthReal = dayOfMonth.toString()
-            if (monthOfYearReal.toInt() < 10 ){
-                monthOfYearReal = "0${monthOfYearReal}"
-            }
-            if (dayOfMonthReal.toInt() < 10){
-                dayOfMonthReal = "0${dayOfMonthReal}"
-            }
-            dayMonthYearText = "${dayOfMonthReal}.${monthOfYearReal}.${year}"
-            c.add(Calendar.DATE,1)
-            tarihT1 = "${year}-${monthOfYear+1}-${dayOfMonth}"
-            tarihT2 = "${year}-${monthOfYear+1}-${dayOfMonth+1}"
+            val dayMonthYearTextMonthStr = monthOfYear + 1
+            dayMonthYearText = "${dayOfMonth}.${dayMonthYearTextMonthStr}.${year}"
+            val calendarTarih = Calendar.getInstance()
+            calendarTarih.set(year,monthOfYear,dayOfMonth)
+            ui_epoch = (calendarTarih.timeInMillis / 1000).toFloat()
+
+            calendarTarih.add(Calendar.MONTH,1)
+            calendarTarih.add(Calendar.DAY_OF_MONTH,-4)
+            tarihT1 = "${calendarTarih.get(Calendar.YEAR)}-${calendarTarih.get(Calendar.MONTH)}-${calendarTarih.get(Calendar.DAY_OF_MONTH)}"
+
+
+            calendarTarih.add(Calendar.DAY_OF_MONTH,8) // 8 gün eklemekteki amaç çıkartılan 4 gün önce ve 4 gün sonrayı hesaplamak
+            tarihT2 = "${calendarTarih.get(Calendar.YEAR)}-${calendarTarih.get(Calendar.MONTH)}-${calendarTarih.get(Calendar.DAY_OF_MONTH)}"
+
             println(tarihT1)
             println(tarihT2)
+
             binding.editTextDate.setText(dayMonthYearText)
         }, year, month, day)
         dpd.show()
