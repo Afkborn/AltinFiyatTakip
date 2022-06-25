@@ -22,21 +22,30 @@ import retrofit2.Response
 class DegerliListe : Fragment() {
     var degerliList : ArrayList<Degerli> = arrayListOf()
     private lateinit var binding : FragmentDegerliListeBinding
+    private lateinit var degerliAdapter : DegerliRecyclerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        if (savedInstanceState != null){
+            degerliList = savedInstanceState.getSerializable("degerliListe") as ArrayList<Degerli>
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentDegerliListeBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        degerliAdapter = DegerliRecyclerAdapter(degerliList)
+        binding.recyclerViewDegerli.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
+        binding.recyclerViewDegerli.adapter = degerliAdapter
+
+        binding.recyclerViewDegerli.setHasFixedSize(true)
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object:Runnable{
             override fun run() {
@@ -57,8 +66,9 @@ class DegerliListe : Fragment() {
                     tempList?.let {
                         degerliList = it as ArrayList<Degerli>
                     }
-                    setDegerliAdapter()
-                    println("Güncelleme başarılı!")
+                    degerliAdapter.setDegerliList(degerliList)
+
+
                 }
 
                 override fun onFailure(call: Call<DegerliResponse>, t: Throwable) {
@@ -68,11 +78,12 @@ class DegerliListe : Fragment() {
             }
         )
     }
-    private fun setDegerliAdapter(){
-        val degerliAdapter = DegerliRecyclerAdapter(degerliList)
-        binding.recyclerViewDegerli.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-        binding.recyclerViewDegerli.adapter = degerliAdapter
-        binding.recyclerViewDegerli.setHasFixedSize(true)
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("degerliListe",degerliList)
+        println("kaydettim ")
     }
+
 
 }

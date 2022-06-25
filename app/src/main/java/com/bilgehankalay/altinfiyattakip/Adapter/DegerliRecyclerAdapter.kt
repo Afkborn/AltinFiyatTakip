@@ -42,6 +42,13 @@ class DegerliRecyclerAdapter(private var degerliList : ArrayList<Degerli>) : Rec
 
     override fun getItemCount(): Int {
         return degerliList.size
+
+    }
+
+
+    fun setDegerliList(gelen_degerliList : ArrayList<Degerli>){
+        degerliList = gelen_degerliList
+        this.notifyDataSetChanged()
     }
 
 

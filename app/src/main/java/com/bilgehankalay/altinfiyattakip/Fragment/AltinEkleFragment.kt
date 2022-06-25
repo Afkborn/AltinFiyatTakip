@@ -43,9 +43,19 @@ class AltinEkleFragment : Fragment() {
     private var alinacakMiktar : Float = 0F
     var tarihT1 = ""
     var tarihT2 = ""
+
+    private var degerliIsimlerListe : ArrayList<String> = arrayListOf()
+    private lateinit var spinnerAdapter : ArrayAdapter<*>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (savedInstanceState != null){
+            degerliList = savedInstanceState.getSerializable("degerliList") as ArrayList<Degerli> /* = java.util.ArrayList<com.bilgehankalay.altinfiyattakip.Model.Degerli> */
+            degerliIsimlerListe.clear()
+            degerliList.forEach {
+                degerliIsimlerListe.add(it.aciklama)
+            }
 
+        }
     }
 
     override fun onCreateView(
@@ -62,11 +72,31 @@ class AltinEkleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val mainHandler = Handler(Looper.getMainLooper())
+        mainHandler.post(object:Runnable{
+            override fun run() {
+                degerliGetir()
+                mainHandler.postDelayed(this,10000)
+            }
+        })
+
         isLoaded = false
         setRadioButtonListener()
         showFiyatConstraint()
         setEditTextListener()
+
+
+
+        spinnerAdapter = ArrayAdapter(
+            requireActivity(),
+            android.R.layout.simple_spinner_item,
+            degerliIsimlerListe
+        )
+
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerDegerli.adapter = spinnerAdapter
         setSpinnerListener()
+
         binding.buttonTarihSec.setOnClickListener{
             setDatePickerDialog()
         }
@@ -118,13 +148,7 @@ class AltinEkleFragment : Fragment() {
             }
 
         }
-        val mainHandler = Handler(Looper.getMainLooper())
-        mainHandler.post(object:Runnable{
-            override fun run() {
-                degerliGetir()
-                mainHandler.postDelayed(this,10000)
-            }
-        })
+
 
     }
 
@@ -229,10 +253,14 @@ class AltinEkleFragment : Fragment() {
                         degerliList = it as ArrayList<Degerli>
                     }
                     if (!isLoaded){
-                        spinnerYukle()
+                        spinnerAdapter.notifyDataSetChanged()
                         isLoaded = true
                     }
-
+                    degerliIsimlerListe.clear()
+                    degerliList.forEach {
+                        degerliIsimlerListe.add(it.aciklama)
+                    }
+                    spinnerAdapter.notifyDataSetChanged()
                 }
 
                 override fun onFailure(call: Call<DegerliResponse>, t: Throwable) {
@@ -243,29 +271,11 @@ class AltinEkleFragment : Fragment() {
         )
     }
 
-    private fun spinnerYukle(){
-        val degerliIsimlerListe : ArrayList<String> = arrayListOf()
-        degerliList.forEach {
-            degerliIsimlerListe.add(it.aciklama)
-        }
-        val adapter : ArrayAdapter<*>
-        adapter = ArrayAdapter(
-            requireActivity(),
-            android.R.layout.simple_spinner_item,
-            degerliIsimlerListe
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerDegerli.adapter = adapter
-        adapter.notifyDataSetChanged()
-    }
 
     private fun setEditTextListener(){
-
         binding.altinEkleEditTextFrom.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
-
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0!!.length >= 0){
                     val p0F = p0.toString().toFloatOrNull()
@@ -275,18 +285,13 @@ class AltinEkleFragment : Fragment() {
                     }
                 }
             }
-
             override fun afterTextChanged(p0: Editable?) {
-
             }
-
         })
 
         binding.altinEkleEditTextGecmisMiktar.addTextChangedListener(object  : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
             }
-
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0!!.length >= 0){
                     val p0F = p0.toString().toFloatOrNull()
@@ -295,17 +300,13 @@ class AltinEkleFragment : Fragment() {
                     }
                 }
             }
-
             override fun afterTextChanged(p0: Editable?) {
-
-
             }
-
         })
-
-
-
     }
 
-
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable("degerliList", degerliList)
+    }
 }
