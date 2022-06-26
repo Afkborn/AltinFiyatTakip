@@ -42,5 +42,8 @@
         <action
             android:id="@+id/onay_to_altinEkle"
             app:destination="@id/altinEkleFragment" />
+        <action
+            android:id="@+id/onay_to_home"
+            app:destination="@id/homeScreen2" />
     </fragment>
 </navigation>

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
@@ -27,11 +28,14 @@ class OnayFragment : Fragment() {
     private val args : OnayFragmentArgs  by navArgs()
     private var sayac = 10
     private var miktar = 0F
+
+    private lateinit var degerliDB : DegerliDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gelenDegerli = args.degerliObject
         guncelMi = args.guncelMi
         miktar = args.miktar
+        degerliDB = DegerliDatabase.getirDegerliDatabase(requireContext())!!
     }
 
     override fun onCreateView(
@@ -55,11 +59,12 @@ class OnayFragment : Fragment() {
                 }
             })
         }
-        else{
 
-        }
         binding.onayFabOk.setOnClickListener {
-            println("işlemi yap")
+            gelenDegerli.miktar = miktar
+            degerliDB.degerliDAO().degerliEkle(gelenDegerli)
+            val gecisAction = OnayFragmentDirections.onayToHome()
+            findNavController().navigate(gecisAction)
         }
         binding.onayFabClose.setOnClickListener {
             val gecisAction = OnayFragmentDirections.onayToAltinEkle()

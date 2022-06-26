@@ -21,7 +21,6 @@ class DegerliRecyclerAdapter(private var degerliList : ArrayList<Degerli>) : Rec
     override fun onBindViewHolder(holder: DegerliCardTasarim, position: Int) {
         val degerli = degerliList[position]
         holder.degerliCardTasarimBinding.also {
-            println(degerli)
             val sembol = degerli.getSembol()
             if (degerli.alis_dir == -1){
                 it.imageViewAlisFiyati.setImageResource(R.drawable.red_down_arrow)

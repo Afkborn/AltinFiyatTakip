@@ -20,7 +20,7 @@ import retrofit2.Response
 
 
 class DegerliListe : Fragment() {
-    var degerliList : ArrayList<Degerli> = arrayListOf()
+    private var degerliList : ArrayList<Degerli> = arrayListOf()
     private lateinit var binding : FragmentDegerliListeBinding
     private lateinit var degerliAdapter : DegerliRecyclerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +82,7 @@ class DegerliListe : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable("degerliListe",degerliList)
-        println("kaydettim ")
+
     }
 
 

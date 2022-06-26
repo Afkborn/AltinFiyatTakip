@@ -1,21 +1,31 @@
 package com.bilgehankalay.altinfiyattakip.Model
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+@Entity(tableName = "degerliler")
 data class Degerli(
-    @SerializedName("code") @Expose var code : String,
-    @SerializedName("alis") @Expose var alis : Float,
-    @SerializedName("satis") @Expose var satis : Float,
-    @SerializedName("tarih") @Expose var tarih : Float,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id : Int = 0,
+    @ColumnInfo(name = "code")  @SerializedName("code") @Expose var code : String,
+    @ColumnInfo(name = "alis")  @SerializedName("alis") @Expose var alis : Float,
+    @ColumnInfo(name = "satis") @SerializedName("satis") @Expose var satis : Float,
+    @ColumnInfo(name = "tarih")  @SerializedName("tarih") @Expose var tarih : Float,
+    @ColumnInfo(name = "miktar") var miktar : Float,
     @SerializedName("aciklama") @Expose var aciklama : String,
     @SerializedName("alis_dir") @Expose var alis_dir : Int,
     @SerializedName("satis_dir") @Expose var satis_dir : Int,
     @SerializedName("dusuk") @Expose var dusuk : Float,
     @SerializedName("yuksek") @Expose var yuksek : Float,
     @SerializedName("kapanis") @Expose var kapanis : Float,
+
 ) : Serializable {
+
+
     fun getSembol(type : Int = 1) : String{
         val sembolList = aciklama.split("/")
         when (sembolList[type]){
@@ -36,5 +46,10 @@ data class Degerli(
             "Danimarka Kronu" -> return "DKK"
         }
         return ""
+    }
+
+    fun getAciklama(type : Int = 0) : String{
+        val aciklamaList = aciklama.split("/")
+        return aciklamaList[type]
     }
 }

@@ -16,6 +16,7 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.R
@@ -44,6 +45,8 @@ class AltinEkleFragment : Fragment() {
     private var degerliIsimlerListe : ArrayList<String> = arrayListOf()
     private lateinit var spinnerAdapter : ArrayAdapter<*>
     var isClickeble_Ekle = true
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState != null){
@@ -54,6 +57,7 @@ class AltinEkleFragment : Fragment() {
             }
 
         }
+
     }
 
     override fun onCreateView(
