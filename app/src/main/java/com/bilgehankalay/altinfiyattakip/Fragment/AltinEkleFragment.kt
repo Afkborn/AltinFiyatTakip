@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,21 +14,18 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.R
-
 import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
 import com.bilgehankalay.altinfiyattakip.Response.PostAlisSatisResponse
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentAltinEkleBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.abs
 
 
@@ -64,10 +60,8 @@ class AltinEkleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentAltinEkleBinding.inflate(inflater,container, false)
         return binding.root
-
     }
 
 
@@ -86,7 +80,6 @@ class AltinEkleFragment : Fragment() {
         setRadioButtonListener()
         showFiyatConstraint()
         setEditTextListener()
-
 
 
         spinnerAdapter = ArrayAdapter(
@@ -108,10 +101,11 @@ class AltinEkleFragment : Fragment() {
                 findNavController().navigate(gecisAction)
             }
             else{
+                val gecmisMiktar = binding.altinEkleEditTextGecmisMiktar.text.toString().toFloatOrNull()
                 if (tarihT1 == "" || tarihT2 == ""){
                     Toast.makeText(requireContext(),"Tarih seçin",Toast.LENGTH_LONG).show()
                 }
-                else if ( binding.altinEkleEditTextGecmisMiktar.text.toString().toFloat()<= 0F || binding.altinEkleEditTextGecmisMiktar.text.toString().toFloatOrNull() == null ){
+                else if ((gecmisMiktar == null) || (gecmisMiktar <= 0F)){
                     Toast.makeText(requireContext(),"Bir değer girin ",Toast.LENGTH_LONG).show()
                 }
                 else{
@@ -123,18 +117,12 @@ class AltinEkleFragment : Fragment() {
                                     call: Call<PostAlisSatisResponse>,
                                     response: Response<PostAlisSatisResponse>
                                 ) {
-
                                     val tempDegerli = response.body()?.altinlar
                                     if (tempDegerli != null){
-                                        // temp degerli arasında birden fazla tarih olabilir bizim tarihimize en yakın olanı al.
-
                                         var enYakinTarih = 9999999999
                                         var enYakinIndex = 0
                                         tempDegerli.forEachIndexed { index, degerli ->
-                                            var fark = degerli.tarih.toLong() - ui_epoch
-                                            fark = abs(fark)
-
-                                            println("${degerli.tarih.toLong()}, ${ui_epoch}, ${fark}")
+                                            val fark = abs(degerli.tarih.toLong() - ui_epoch)
                                             if ( fark < enYakinTarih ){
                                                 enYakinIndex = index
                                                 enYakinTarih = fark.toLong()
@@ -148,11 +136,11 @@ class AltinEkleFragment : Fragment() {
                                         findNavController().navigate(gecisAction)
                                     }
                                     else{
-                                        Toast.makeText(requireContext(),"Seçili tarihe ait veri bulunamadı",Toast.LENGTH_LONG).show()
+                                        ManuallyEnterPriceDialogFragment().show(
+                                            childFragmentManager, ManuallyEnterPriceDialogFragment.TAG
+                                        )
                                         isClickeble_Ekle  = !isClickeble_Ekle
                                     }
-
-
                                 }
 
                                 override fun onFailure(

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">AltinFiyatTakip</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="ana_sayfa">Ana Sayfa</string>
     <string name="altin_ekle">Altın Ekle</string>
@@ -16,4 +16,12 @@
     <string name="canli_piyasa">Canlı Piyasa</string>
     <string name="degerli_card_satis_text">Satış:</string>
     <string name="deger_card_alis_text">Alış:</string>
+
+    <string name="manually_enter_price_message">Seçili tarihe ait fiyat bulunamadı</string>
+    <string name="manually_enter_price_possitive_button">Tamam</string>
+
+    <string name="manually_enter_price_negative_button">Hayır</string>
+    <string name="get_price_dialog_fragment_message">Fiyat girin:</string>
+    <string name="get_price_dialog_fragment_possitive_button">Ekle</string>
+    <string name="get_price_dialog_fragment_negative_button">İptal</string>
 </resources>
