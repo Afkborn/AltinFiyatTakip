@@ -33,11 +33,12 @@ import kotlin.math.abs
 class AltinEkleFragment : Fragment() {
     private lateinit var binding : FragmentAltinEkleBinding
     private lateinit var seciliDegerli : Degerli
-    private var isLoaded = false
-    var degerliList : ArrayList<Degerli> = arrayListOf()
+    private lateinit var seciliDegerliCode : String
+
+    var degerliListArray : ArrayList<Degerli> = arrayListOf()
     private var guncelMi = true
     private lateinit var dayMonthYearText : String
-
+    private var isSelectDegerli = false
     private var alinacakMiktar : Float = 0F
     var tarihT1 = ""
     var tarihT2 = ""
@@ -46,13 +47,16 @@ class AltinEkleFragment : Fragment() {
     private lateinit var spinnerAdapter : ArrayAdapter<*>
     var isClickeble_Ekle = true
 
+    private lateinit var degerliDB : DegerliDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        degerliDB = DegerliDatabase.getirDegerliDatabase(requireContext())!!
+
         if (savedInstanceState != null){
-            degerliList = savedInstanceState.getSerializable("degerliList") as ArrayList<Degerli> /* = java.util.ArrayList<com.bilgehankalay.altinfiyattakip.Model.Degerli> */
+            degerliListArray = savedInstanceState.getSerializable("degerliList") as ArrayList<Degerli>
             degerliIsimlerListe.clear()
-            degerliList.forEach {
+            degerliListArray.forEach {
                 degerliIsimlerListe.add(it.aciklama)
             }
 
@@ -75,12 +79,12 @@ class AltinEkleFragment : Fragment() {
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object:Runnable{
             override fun run() {
-                degerliGetir()
-                mainHandler.postDelayed(this,10000)
+                updateDegerliFromDB()
+                mainHandler.postDelayed(this,1000)
             }
         })
 
-        isLoaded = false
+
         setRadioButtonListener()
         showFiyatConstraint()
         setEditTextListener()
@@ -91,7 +95,6 @@ class AltinEkleFragment : Fragment() {
             android.R.layout.simple_spinner_item,
             degerliIsimlerListe
         )
-
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerDegerli.adapter = spinnerAdapter
         setSpinnerListener()
@@ -171,34 +174,39 @@ class AltinEkleFragment : Fragment() {
 
 
     }
+    private fun loadUIDegerli(seciliDegerliCode : String){
+        seciliDegerli = degerliListArray.filter { it.code == seciliDegerliCode }[0]
+        binding.altinEkleTextViewSatisFiyati.text = "${seciliDegerli.satis} ${seciliDegerli.getSembol()}"
+        binding.altinEkleTextViewAlisFiyati.text = "${seciliDegerli.alis} ${seciliDegerli.getSembol()}"
+
+        val splitedAciklama = seciliDegerli.aciklama.split("/")
+        binding.altinEkleTextViewFromText.text = splitedAciklama[0]
+        binding.altinEkleTextViewToText.text = splitedAciklama[1]
+        binding.altinEkleTextViewFromTextTarih.text = splitedAciklama[0]
+
+        if (seciliDegerli.alis_dir == -1){
+            binding.altinEkleImageViewAlisFiyati.setImageResource(R.drawable.red_down_arrow)
+        }
+        else if (seciliDegerli.alis_dir == 1){
+            binding.altinEkleImageViewAlisFiyati.setImageResource(R.drawable.green_up_arrow)
+        }
+        if (seciliDegerli.satis_dir == -1){
+            binding.altinEkleImageViewSatisFiyati.setImageResource(R.drawable.red_down_arrow)
+        }
+        else if (seciliDegerli.satis_dir == 1){
+            binding.altinEkleImageViewSatisFiyati.setImageResource(R.drawable.green_up_arrow)
+        }
+    }
 
     private fun setSpinnerListener() {
         binding.spinnerDegerli.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 binding.altinEkleEditTextFrom.setText("")
                 binding.altinEkleEditTextTo.setText("")
-
-                seciliDegerli = degerliList[p2]
-                binding.altinEkleTextViewSatisFiyati.text = "${seciliDegerli.satis} ${seciliDegerli.getSembol()}"
-                binding.altinEkleTextViewAlisFiyati.text = "${seciliDegerli.alis} ${seciliDegerli.getSembol()}"
-
-                val splitedAciklama = seciliDegerli.aciklama.split("/")
-                binding.altinEkleTextViewFromText.text = splitedAciklama[0]
-                binding.altinEkleTextViewToText.text = splitedAciklama[1]
-                binding.altinEkleTextViewFromTextTarih.text = splitedAciklama[0]
-
-                if (seciliDegerli.alis_dir == -1){
-                    binding.altinEkleImageViewAlisFiyati.setImageResource(R.drawable.red_down_arrow)
-                }
-                else if (seciliDegerli.alis_dir == 1){
-                    binding.altinEkleImageViewAlisFiyati.setImageResource(R.drawable.green_up_arrow)
-                }
-                if (seciliDegerli.satis_dir == -1){
-                    binding.altinEkleImageViewSatisFiyati.setImageResource(R.drawable.red_down_arrow)
-                }
-                else if (seciliDegerli.satis_dir == 1){
-                    binding.altinEkleImageViewSatisFiyati.setImageResource(R.drawable.green_up_arrow)
-                }
+                seciliDegerli = degerliListArray[p2]
+                seciliDegerliCode = seciliDegerli.code
+                isSelectDegerli = true
+                loadUIDegerli(seciliDegerliCode)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -256,42 +264,27 @@ class AltinEkleFragment : Fragment() {
             calendarTarih.add(Calendar.DAY_OF_MONTH,8) // 8 gün eklemekteki amaç çıkartılan 4 gün önce ve 4 gün sonrayı hesaplamak
             tarihT2 = "${calendarTarih.get(Calendar.YEAR)}-${calendarTarih.get(Calendar.MONTH)}-${calendarTarih.get(Calendar.DAY_OF_MONTH)}"
 
-            println(tarihT1)
-            println(tarihT2)
-
             binding.editTextDate.setText(dayMonthYearText)
         }, year, month, day)
         dpd.show()
     }
 
-    private fun degerliGetir(){
-        ApiUtils.altinDAOInterfaceGetir().altinlariAlV2().enqueue(
-            object : Callback<DegerliResponse>{
-                override fun onResponse(
-                    call: Call<DegerliResponse>,
-                    response: Response<DegerliResponse>
-                ) {
-                    val tempList = response.body()?.altinlar
-                    tempList?.let {
-                        degerliList = it as ArrayList<Degerli>
-                    }
-                    if (!isLoaded){
-                        spinnerAdapter.notifyDataSetChanged()
-                        isLoaded = true
-                    }
-                    degerliIsimlerListe.clear()
-                    degerliList.forEach {
-                        degerliIsimlerListe.add(it.aciklama)
-                    }
-                    spinnerAdapter.notifyDataSetChanged()
+    private fun updateDegerliFromDB(){
+        val degerliListA : List<Degerli?> =  degerliDB.degerliDAO().getAllAPIDegerli()
+        if (degerliListA.isNotEmpty()){
+            degerliListArray.clear()
+            degerliIsimlerListe.clear()
+            degerliListA.forEach {
+                if (it != null) {
+                    degerliListArray.add(it)
+                    degerliIsimlerListe.add(it.aciklama)
                 }
-
-                override fun onFailure(call: Call<DegerliResponse>, t: Throwable) {
-                    println(t.localizedMessage)
-                }
-
             }
-        )
+        }
+        spinnerAdapter.notifyDataSetChanged()
+        if (isSelectDegerli)
+            loadUIDegerli(seciliDegerliCode)
+
     }
 
 
@@ -330,6 +323,6 @@ class AltinEkleFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable("degerliList", degerliList)
+        outState.putSerializable("degerliList", degerliListArray)
     }
 }

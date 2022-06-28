@@ -14,7 +14,6 @@ import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentHomeScreenBinding
-import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,14 +24,18 @@ class HomeScreen : Fragment() {
 
     private lateinit var degerliDB : DegerliDatabase
     private lateinit var myDegerliList : List<Degerli?>
-    private var guncelDegerliList : ArrayList<Degerli> = arrayListOf()
+
+    private var guncelDegerliListArray : ArrayList<Degerli> = arrayListOf()
 
     private lateinit var degerliRecyclerAdapter : HomeScreenDegerliRecyclerAdapter
+    private var toplamMiktar = 0f
 
+    private var dolarDegerli: Degerli? = null
+    private var euroDegerli : Degerli? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         degerliDB = DegerliDatabase.getirDegerliDatabase(requireContext())!!
-        myDegerliList = degerliDB.degerliDAO().tumKitap()
+        myDegerliList = degerliDB.degerliDAO().getAllUserDegerli()
     }
 
     override fun onCreateView(
@@ -40,12 +43,13 @@ class HomeScreen : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeScreenBinding.inflate(inflater,container,false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        degerliRecyclerAdapter = HomeScreenDegerliRecyclerAdapter(myDegerliList,guncelDegerliList)
+        degerliRecyclerAdapter = HomeScreenDegerliRecyclerAdapter(myDegerliList,guncelDegerliListArray)
         binding.homeScreenRecyclerViewDegerli.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.homeScreenRecyclerViewDegerli.adapter = degerliRecyclerAdapter
         binding.homeScreenRecyclerViewDegerli.setHasFixedSize(true)
@@ -53,36 +57,60 @@ class HomeScreen : Fragment() {
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object:Runnable{
             override fun run() {
-                degerliGetir()
-                mainHandler.postDelayed(this,10000)
+                loadDegerliFromDB()
+                mainHandler.postDelayed(this,1000)
             }
         })
 
     }
 
+    private fun updateUI(){
+        toplamMiktar = 0F
 
-    private fun degerliGetir(){
-        ApiUtils.altinDAOInterfaceGetir().altinlariAlV2().enqueue(
-            object : Callback<DegerliResponse> {
-                override fun onResponse(
-                    call: Call<DegerliResponse>,
-                    response: Response<DegerliResponse>
-                ) {
-                    val tempList = response.body()?.altinlar
-                    tempList?.let {
-                        guncelDegerliList = it as ArrayList<Degerli>
+        if (myDegerliList.isNotEmpty()){
+            myDegerliList.forEach {  myDegerli ->
+                guncelDegerliListArray.forEach{ guncelDegerli ->
+                    if (myDegerli!!.code == guncelDegerli.code){
+                        if (myDegerli.getAciklama(1) == "TL"){
+                            toplamMiktar += myDegerli.miktar * guncelDegerli.alis
+                        }
+                        else if (myDegerli.getAciklama(1) == "Dolar"){
+                            toplamMiktar += (myDegerli.miktar * guncelDegerli.alis) * dolarDegerli!!.alis
+                        }
+                        else if (myDegerli.getAciklama(1) == "Euro"){
+                            toplamMiktar += (myDegerli.miktar * guncelDegerli.alis) * euroDegerli!!.alis
+                        }
+
                     }
-                    myDegerliList = degerliDB.degerliDAO().tumKitap()
-                    degerliRecyclerAdapter.updateRecyclerAdapter(myDegerliList,guncelDegerliList)
-
                 }
-
-                override fun onFailure(call: Call<DegerliResponse>, t: Throwable) {
-                    println(t.localizedMessage)
-                }
-
             }
-        )
+        }
+        val yuvarlananToplamMiktar = String.format("%.2f",toplamMiktar)
+        binding.homeScreenTextViewToplam.text = "${yuvarlananToplamMiktar} TL "
+
+    }
+    private fun loadDegerliFromDB(){
+        val degerliListA : List<Degerli?> =  degerliDB.degerliDAO().getAllAPIDegerli()
+        if (degerliListA.isNotEmpty()){
+            guncelDegerliListArray.clear()
+            degerliListA.forEach {
+                if (it != null) {
+                    guncelDegerliListArray.add(it)
+                }
+            }
+            loadDolarEuroAlisSatis()
+            myDegerliList = degerliDB.degerliDAO().getAllUserDegerli()
+
+            updateUI()
+            degerliRecyclerAdapter.updateRecyclerAdapter(myDegerliList,guncelDegerliListArray)
+        }
+    }
+
+    private fun loadDolarEuroAlisSatis(){
+
+        dolarDegerli = guncelDegerliListArray.filter { it.code == "USDTRY" }[0]
+        euroDegerli = guncelDegerliListArray.filter { it.code == "EURTRY" }[0]
+
     }
 
 }

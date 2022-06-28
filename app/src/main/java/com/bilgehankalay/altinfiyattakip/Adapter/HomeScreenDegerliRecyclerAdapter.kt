@@ -22,6 +22,7 @@ class HomeScreenDegerliRecyclerAdapter(private var myDegerliList : List<Degerli?
     override fun onBindViewHolder(holder: HomeScreenDegerliCardTasarim, position: Int) {
         val degerli = myDegerliList[position]
         var guncelDegerli : Degerli? = null
+
         if (degerli != null){
             guncelDegerliList.forEach {
                 if (it.code == degerli.code){
@@ -32,10 +33,12 @@ class HomeScreenDegerliRecyclerAdapter(private var myDegerliList : List<Degerli?
                 it.textViewDegerliIsim.text = "${degerli.getAciklama()}"
 
                 if (guncelDegerli != null){
-                    val toplamGuncelDeger = degerli.miktar * guncelDegerli!!.alis
                     val toplamEskiDeger = degerli.miktar * degerli.satis
                     it.textViewDegerliCodeAlis.text = "${degerli.code} (${guncelDegerli!!.alis} ${guncelDegerli!!.getSembol()})"
-                    it.textViewDegerliToplam.text = "${toplamGuncelDeger} ${guncelDegerli!!.getSembol()}"
+
+                    val toplamGuncelDeger = degerli.miktar * guncelDegerli!!.alis
+                    val yuvarlananToplamGuncelDeger = String.format("%.2f",toplamGuncelDeger)
+                    it.textViewDegerliToplam.text = "${yuvarlananToplamGuncelDeger} ${guncelDegerli!!.getSembol()}"
 
                     //kar zarar hesapla
                     val karZarar =  toplamGuncelDeger - toplamEskiDeger
@@ -54,6 +57,7 @@ class HomeScreenDegerliRecyclerAdapter(private var myDegerliList : List<Degerli?
                 }
 
             }
+
         }
 
     }

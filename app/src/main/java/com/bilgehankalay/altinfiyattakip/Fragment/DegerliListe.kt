@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bilgehankalay.altinfiyattakip.Adapter.DegerliRecyclerAdapter
+import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.R
@@ -20,13 +21,16 @@ import retrofit2.Response
 
 
 class DegerliListe : Fragment() {
-    private var degerliList : ArrayList<Degerli> = arrayListOf()
+    private var degerliListArray : ArrayList<Degerli> = arrayListOf()
     private lateinit var binding : FragmentDegerliListeBinding
     private lateinit var degerliAdapter : DegerliRecyclerAdapter
+
+    private lateinit var degerliDB : DegerliDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        degerliDB = DegerliDatabase.getirDegerliDatabase(requireContext())!!
         if (savedInstanceState != null){
-            degerliList = savedInstanceState.getSerializable("degerliListe") as ArrayList<Degerli>
+            degerliListArray = savedInstanceState.getSerializable("degerliListe") as ArrayList<Degerli>
         }
     }
 
@@ -41,7 +45,7 @@ class DegerliListe : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        degerliAdapter = DegerliRecyclerAdapter(degerliList)
+        degerliAdapter = DegerliRecyclerAdapter(degerliListArray)
         binding.recyclerViewDegerli.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.recyclerViewDegerli.adapter = degerliAdapter
 
@@ -49,39 +53,28 @@ class DegerliListe : Fragment() {
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object:Runnable{
             override fun run() {
-                degerliGetir()
-                mainHandler.postDelayed(this,10000)
+                updateDegerliListFromDB()
+                degerliAdapter.setDegerliList(degerliListArray)
+                mainHandler.postDelayed(this,1000)
             }
         })
     }
-
-    private fun degerliGetir(){
-        ApiUtils.altinDAOInterfaceGetir().altinlariAlV2().enqueue(
-            object : Callback<DegerliResponse>{
-                override fun onResponse(
-                    call: Call<DegerliResponse>,
-                    response: Response<DegerliResponse>
-                ) {
-                    val tempList = response.body()?.altinlar
-                    tempList?.let {
-                        degerliList = it as ArrayList<Degerli>
-                    }
-                    degerliAdapter.setDegerliList(degerliList)
-
-
+    private fun updateDegerliListFromDB(){
+        val degerliListA : List<Degerli?> =  degerliDB.degerliDAO().getAllAPIDegerli()
+        if (degerliListA.isNotEmpty()){
+            degerliListArray.clear()
+            degerliListA.forEach {
+                if (it != null) {
+                    degerliListArray.add(it)
                 }
-
-                override fun onFailure(call: Call<DegerliResponse>, t: Throwable) {
-                    println(t.localizedMessage)
-                }
-
             }
-        )
+        }
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable("degerliListe",degerliList)
+        outState.putSerializable("degerliListe",degerliListArray)
 
     }
 

@@ -5,7 +5,7 @@ import com.bilgehankalay.altinfiyattakip.Model.Degerli
 
 @Dao
 interface DegerliRoomDAO {
-    @Insert
+    @Insert()
     fun degerliEkle(degerli : Degerli)
 
     @Update
@@ -14,7 +14,13 @@ interface DegerliRoomDAO {
     @Delete
     fun degerliSil(degerli:Degerli)
 
-    @Query("SELECT * FROM degerliler")
-    fun tumKitap() : List<Degerli?>
+    @Query("SELECT * FROM degerliler WHERE isUserData == 1 ")
+    fun getAllUserDegerli() : List<Degerli?>
+
+    @Query("SELECT * FROM degerliler WHERE isUserData == 0 ")
+    fun getAllAPIDegerli() : List<Degerli?>
+
+    @Query("SELECT id FROM degerliler WHERE isUserData == 0 AND code == :code")
+    fun getIDFromAPIDegerli(code : String) : Int?
 
 }

@@ -62,6 +62,8 @@ class OnayFragment : Fragment() {
 
         binding.onayFabOk.setOnClickListener {
             gelenDegerli.miktar = miktar
+            gelenDegerli.isUserData = true
+            gelenDegerli.id = 0
             degerliDB.degerliDAO().degerliEkle(gelenDegerli)
             val gecisAction = OnayFragmentDirections.onayToHome()
             findNavController().navigate(gecisAction)
@@ -111,7 +113,6 @@ class OnayFragment : Fragment() {
                     gelenDegerli = response.body()?.altinlar!![0]
                     degerliYukle()
                 }
-
                 override fun onFailure(call: Call<DegerliResponse>, t: Throwable) {
                     println(t.localizedMessage)
                 }
