@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/homeScreen2" android:icon="@drawable/home" android:title="@string/ana_sayfa"/>
-    <item android:id="@+id/altinEkleFragment" android:icon="@drawable/add" android:title="@string/altin_ekle"/>
-    <item android:id="@+id/degerliListe" android:icon="@drawable/list" android:title="@string/canli_piyasa" />
+    <item android:id="@+id/homeScreen2" android:icon="@drawable/home" android:title="@string/button_nav_home"/>
+    <item android:id="@+id/altinEkleFragment" android:icon="@drawable/add" android:title="@string/button_nav_add_valuable"/>
+    <item android:id="@+id/degerliListe" android:icon="@drawable/list" android:title="@string/button_nav_live_market" />
+    <item android:id="@+id/varliklarim" android:icon="@drawable/assets" android:title="@string/button_nav_my_assets"/>
 </menu>

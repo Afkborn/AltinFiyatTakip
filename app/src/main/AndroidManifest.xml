@@ -27,6 +27,9 @@
             android:exported="true">
         </activity>
         <service android:name=".BackgroundService.MyBackgroundService"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

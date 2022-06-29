@@ -51,4 +51,9 @@
         android:name="com.bilgehankalay.altinfiyattakip.Activity.SplashActivity"
         android:label="activity_splash"
         tools:layout="@layout/activity_splash" />
+    <fragment
+        android:id="@+id/varliklarim"
+        android:name="com.bilgehankalay.altinfiyattakip.Fragment.Varliklarim"
+        android:label="fragment_varliklarim"
+        tools:layout="@layout/fragment_varliklarim" />
 </navigation>

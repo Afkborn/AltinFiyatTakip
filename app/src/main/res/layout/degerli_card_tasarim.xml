@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView_aciklama"
+            android:id="@+id/degerliCardTasarim_textView_aciklama"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -34,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_code">
+            app:layout_constraintTop_toBottomOf="@+id/degerliCardTasarim_textView_code">
 
             <Space
                 android:layout_width="wrap_content"
@@ -42,15 +42,15 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/textView_alis"
+                android:id="@+id/degerliCardTasarim_textView_alis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/deger_card_alis_text"
+                android:text="@string/degerli_card_alis_text"
                 android:textSize="16sp" />
 
             <ImageView
-                android:id="@+id/imageView_alisFiyati"
+                android:id="@+id/degerliCardTasarim_imageView_alisFiyati"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
@@ -58,7 +58,7 @@
                 tools:srcCompat="@drawable/green_up_arrow" />
 
             <TextView
-                android:id="@+id/textView_alisFiyati"
+                android:id="@+id/degerliCardTasarim_textView_alisFiyati"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -68,7 +68,7 @@
                 tools:text="17,341 ₺" />
 
             <TextView
-                android:id="@+id/textView_satis"
+                android:id="@+id/degerliCardTasarim_textView_satis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -77,15 +77,15 @@
                 android:textSize="16sp" />
 
             <ImageView
-                android:id="@+id/imageView_satisFiyati"
+                android:id="@+id/degerliCardTasarim_imageView_satisFiyati"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 tools:ignore="ImageContrastCheck"
-                tools:srcCompat="@drawable/green_up_arrow" />
+                tools:srcCompat="@drawable/red_down_arrow" />
 
             <TextView
-                android:id="@+id/textView_satisFiyati"
+                android:id="@+id/degerliCardTasarim_textView_satisFiyati"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -102,14 +102,14 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView_code"
+            android:id="@+id/degerliCardTasarim_textView_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textStyle="italic"
-            app:layout_constraintEnd_toEndOf="@+id/textView_aciklama"
-            app:layout_constraintStart_toStartOf="@+id/textView_aciklama"
-            app:layout_constraintTop_toBottomOf="@+id/textView_aciklama"
+            app:layout_constraintEnd_toEndOf="@+id/degerliCardTasarim_textView_aciklama"
+            app:layout_constraintStart_toStartOf="@+id/degerliCardTasarim_textView_aciklama"
+            app:layout_constraintTop_toBottomOf="@+id/degerliCardTasarim_textView_aciklama"
             tools:text="USDTRY" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

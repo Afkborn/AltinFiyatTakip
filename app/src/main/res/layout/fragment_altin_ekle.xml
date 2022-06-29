@@ -8,28 +8,28 @@
     tools:context=".Fragment.AltinEkleFragment">
 
     <Spinner
-        android:id="@+id/spinner_degerli"
+        android:id="@+id/altinEkle_spinner_degerli"
         android:layout_width="250dp"
         android:layout_height="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_altinlar"
+        app:layout_constraintTop_toBottomOf="@+id/altinEkle_textView_altinlar"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/textView_altinlar"
+        android:id="@+id/altinEkle_textView_altinlar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/altinlar"
+        android:text="@string/altinEkle_screen_altinlar"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/spinner_degerli"
+        app:layout_constraintEnd_toEndOf="@+id/altinEkle_spinner_degerli"
         app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="@+id/spinner_degerli"
+        app:layout_constraintStart_toStartOf="@+id/altinEkle_spinner_degerli"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:id="@+id/radioGroup_secim"
+        android:id="@+id/altinEkle_radioGroup_secim"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -37,30 +37,30 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_degerli">
+        app:layout_constraintTop_toBottomOf="@+id/altinEkle_spinner_degerli">
 
         <RadioButton
-            android:id="@+id/radioButton_simdiAldim"
+            android:id="@+id/altinEkle_radioButton_simdiAldim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="@string/simdi_aldim" />
+            android:text="@string/altinEkle_screen_radioButton_simdi" />
 
         <RadioButton
-            android:id="@+id/radioButton_gecmisZamanliAldim"
+            android:id="@+id/altinEkle_radioButton_gecmisZamanliAldim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp"
-            android:text="@string/gecmis_zamanli_aldim" />
+            android:text="@string/altinEkle_screen_radioButton_gecmis" />
     </RadioGroup>
 
     <Button
-        android:id="@+id/button_ekle"
+        android:id="@+id/altinEkle_button_ekle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/ekle"
+        android:text="@string/altinEkle_screen_add_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -73,32 +73,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup_secim"
+        app:layout_constraintTop_toBottomOf="@+id/altinEkle_radioGroup_secim"
         tools:visibility="visible">
 
         <EditText
-            android:id="@+id/editText_date"
+            android:id="@+id/altinEkle_editText_date"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:ems="10"
             android:enabled="false"
-            android:hint="@string/gg_aa_yyyy"
+            android:hint="@string/altinEkle_screen_date_hint"
             android:inputType="date"
             android:minHeight="48dp"
             android:textColorHint="#757575"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:importantForAutofill="no" />
 
         <Button
-            android:id="@+id/button_tarihSec"
+            android:id="@+id/altinEkle_button_tarihSec"
             android:layout_width="49dp"
             android:layout_height="48dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/uc_nokta"
-            app:layout_constraintBottom_toBottomOf="@+id/editText_date"
+            android:text="@string/altinEkle_screen_pick_date"
+            app:layout_constraintBottom_toBottomOf="@+id/altinEkle_editText_date"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editText_date" />
+            app:layout_constraintTop_toTopOf="@+id/altinEkle_editText_date" />
 
         <EditText
             android:id="@+id/altinEkle_editText_gecmisMiktar"
@@ -106,13 +107,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ems="10"
-            android:hint="miktar"
+            android:hint="@string/altinEkle_screen_miktar"
             android:inputType="numberDecimal"
             android:minHeight="48dp"
             android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="@+id/editText_date"
-            app:layout_constraintTop_toBottomOf="@+id/editText_date"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:textColorHint="#78909C"
+            app:layout_constraintStart_toStartOf="@+id/altinEkle_editText_date"
+            app:layout_constraintTop_toBottomOf="@+id/altinEkle_editText_date"
+            tools:ignore="SpeakableTextPresentCheck"
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/altinEkle_textView_fromTextTarih"
@@ -133,7 +136,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup_secim"
+        app:layout_constraintTop_toBottomOf="@+id/altinEkle_radioGroup_secim"
         tools:visibility="gone">
 
         <Space
@@ -146,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/deger_card_alis_text"
+            android:text="@string/altinEkle_screen_alis_text"
             android:textSize="20sp" />
 
         <ImageView
@@ -173,7 +176,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_weight="1"
-            android:text="@string/degerli_card_satis_text"
+            android:text="@string/altinEkle_screen_satis_text"
             android:textSize="20sp" />
 
         <ImageView
@@ -216,7 +219,8 @@
             android:layout_height="50dp"
             android:layout_marginStart="32dp"
             android:ems="10"
-            android:hint="from"
+            android:hint="@string/altinEkle_screen_from_editText"
+            android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
@@ -229,7 +233,8 @@
             android:layout_height="50dp"
             android:layout_marginEnd="32dp"
             android:ems="10"
-            android:hint="to"
+            android:hint="@string/altinEkle_screen_to_editText"
+            android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"

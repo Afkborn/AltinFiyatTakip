@@ -24,7 +24,17 @@ data class Degerli(
     @SerializedName("yuksek") @Expose var yuksek : Float,
     @SerializedName("kapanis") @Expose var kapanis : Float,
 
-) : Serializable {
+    ) : Serializable {
+
+    @Ignore var toplamEskiDeger: Float = 0.0f
+    @Ignore var toplamGuncelDeger : Float = 0.0f
+    @Ignore var karZarar : Float = 0.0f
+
+    fun setGuncelDegerli(guncelDegerli: Degerli){
+        toplamEskiDeger = miktar * satis
+        toplamGuncelDeger = guncelDegerli.alis * miktar
+        karZarar = toplamGuncelDeger - toplamEskiDeger
+    }
 
 
     fun getSembol(type : Int = 1) : String{

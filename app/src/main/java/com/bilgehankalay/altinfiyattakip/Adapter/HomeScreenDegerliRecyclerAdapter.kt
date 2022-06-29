@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.databinding.HomeScreenDegerliCardTasarimBinding
 
-class HomeScreenDegerliRecyclerAdapter(private var myDegerliList : List<Degerli?>, private var guncelDegerliList : ArrayList<Degerli>) : RecyclerView.Adapter<HomeScreenDegerliRecyclerAdapter.HomeScreenDegerliCardTasarim>() {
+class HomeScreenDegerliRecyclerAdapter(private var myDegerliList : List<Degerli?>) : RecyclerView.Adapter<HomeScreenDegerliRecyclerAdapter.HomeScreenDegerliCardTasarim>() {
     class HomeScreenDegerliCardTasarim(val homeScreenDegerliCardTasarim : HomeScreenDegerliCardTasarimBinding) : RecyclerView.ViewHolder(homeScreenDegerliCardTasarim.root)
 
     override fun onCreateViewHolder(
@@ -21,40 +21,27 @@ class HomeScreenDegerliRecyclerAdapter(private var myDegerliList : List<Degerli?
 
     override fun onBindViewHolder(holder: HomeScreenDegerliCardTasarim, position: Int) {
         val degerli = myDegerliList[position]
-        var guncelDegerli : Degerli? = null
+
 
         if (degerli != null){
-            guncelDegerliList.forEach {
-                if (it.code == degerli.code){
-                    guncelDegerli =it
-                }
-            }
+
             holder.homeScreenDegerliCardTasarim.also {
-                it.textViewDegerliIsim.text = "${degerli.getAciklama()}"
 
-                if (guncelDegerli != null){
-                    val toplamEskiDeger = degerli.miktar * degerli.satis
-                    it.textViewDegerliCodeAlis.text = "${degerli.code} (${guncelDegerli!!.alis} ${guncelDegerli!!.getSembol()})"
-
-                    val toplamGuncelDeger = degerli.miktar * guncelDegerli!!.alis
-                    val yuvarlananToplamGuncelDeger = String.format("%.2f",toplamGuncelDeger)
-                    it.textViewDegerliToplam.text = "${yuvarlananToplamGuncelDeger} ${guncelDegerli!!.getSembol()}"
+                it.textViewDegerliIsim.text = degerli.getAciklama()
+                    //it.textViewDegerliCodeAlis.text = "${degerli.code} (${guncelDegerli!!.alis} ${guncelDegerli!!.getSembol()})"
+                    val yuvarlananToplamGuncelDeger = String.format("%.2f",degerli.toplamGuncelDeger)
+                    it.textViewDegerliToplam.text = "${yuvarlananToplamGuncelDeger} ${degerli!!.getSembol()}"
 
                     //kar zarar hesapla
-                    val karZarar =  toplamGuncelDeger - toplamEskiDeger
-                    val yuvarlananKarZarar = String.format("%.2f", karZarar)
+                    val karZarar = degerli.karZarar
+                    val yuvarlananKarZarar = String.format("%.2f",karZarar )
                     if (karZarar > 0){
                         it.textViewDegerliKarZarar.setTextColor(Color.parseColor("#42FF00")) //renk yeşil
                     }
                     else{
                         it.textViewDegerliKarZarar.setTextColor(Color.parseColor("#FF0000")) // renk kırmızı
                     }
-                    it.textViewDegerliKarZarar.text = "${yuvarlananKarZarar} ${guncelDegerli!!.getSembol()}"
-
-                }
-                else{
-                    it.textViewDegerliCodeAlis.text = "${degerli.code}"
-                }
+                    it.textViewDegerliKarZarar.text = "${yuvarlananKarZarar} ${degerli!!.getSembol()}"
 
             }
 
@@ -66,9 +53,8 @@ class HomeScreenDegerliRecyclerAdapter(private var myDegerliList : List<Degerli?
         return myDegerliList.size
     }
 
-    fun updateRecyclerAdapter(newMyDegerliList : List<Degerli?>, newGuncelDegerliList : ArrayList<Degerli>){
+    fun updateRecyclerAdapter(newMyDegerliList : List<Degerli?>){
         this.myDegerliList = newMyDegerliList
-        this.guncelDegerliList = newGuncelDegerliList
         this.notifyDataSetChanged()
     }
 

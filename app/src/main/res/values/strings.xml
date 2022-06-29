@@ -1,27 +1,49 @@
 <resources>
-    <string name="app_name">AltinFiyatTakip</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="ana_sayfa">Ana Sayfa</string>
-    <string name="altin_ekle">Altın Ekle</string>
-    <string name="altinlar">Altınlar</string>
-    <string name="simdi_aldim">Şimdi Aldım</string>
-    <string name="gecmis_zamanli_aldim">Geçmiş Zamanlı Aldım</string>
-    <string name="ekle">Ekle</string>
-    <string name="uc_nokta">...</string>
-    <string name="gg_aa_yyyy">GG:AA:YYYY</string>
-    <string name="fiyat">Fiyat</string>
-    <string name="alis_fiyati">Alış Fiyatı</string>
-    <string name="satis_fiyati">Satış Fiyatı</string>
-    <string name="canli_piyasa">Canlı Piyasa</string>
+    <!-- splash screen -->
+    <string name="app_name">Altin Fiyat Takip</string>
+    <string name="splash_screen_logo_desc">Altın Fiyat Takip Logo</string>
+
+    <!-- button_nav -->
+    <string name="button_nav_home">Ana Sayfa</string>
+    <string name="button_nav_add_valuable">Degerli Ekle</string>
+    <string name="button_nav_live_market">Canlı Piyasa</string>
+    <string name="button_nav_my_assets">Varlıklarım</string>
+
+    <!-- home screen -->
+    <string name="home_screen_my_assets">Varlıklarım</string>
+
+
+    <!-- degerli card -->
     <string name="degerli_card_satis_text">Satış:</string>
-    <string name="deger_card_alis_text">Alış:</string>
+    <string name="degerli_card_alis_text">Alış:</string>
 
-    <string name="manually_enter_price_message">Seçili tarihe ait fiyat bulunamadı</string>
-    <string name="manually_enter_price_possitive_button">Tamam</string>
+    <!-- altin ekle screen-->
+    <string name="altinEkle_screen_altinlar">Altınlar</string>
+    <string name="altinEkle_screen_radioButton_simdi">Şimdi Aldım</string>
+    <string name="altinEkle_screen_radioButton_gecmis">Geçmiş Zamanlı Aldım</string>
+    <string name="altinEkle_screen_date_hint">GG:AA:YYYY</string>
+    <string name="altinEkle_screen_miktar">miktar</string>
+    <string name="altinEkle_screen_pick_date">...</string>
+    <string name="altinEkle_screen_add_button">Ekle</string>
+    <string name="altinEkle_screen_alis_text">Alış:</string>
+    <string name="altinEkle_screen_satis_text">Satış:</string>
+    <string name="altinEkle_screen_to_editText">to</string>
+    <string name="altinEkle_screen_from_editText">from</string>
 
-    <string name="manually_enter_price_negative_button">Hayır</string>
-    <string name="get_price_dialog_fragment_message">Fiyat girin:</string>
-    <string name="get_price_dialog_fragment_possitive_button">Ekle</string>
-    <string name="get_price_dialog_fragment_negative_button">İptal</string>
+    <!--onay screen-->
+    <string name="onay_screen_alisFiyati">Alış Fiyatı</string>
+    <string name="onay_screen_satisFiyati">Satış Fiyatı</string>
+
+
+
+
+    <!--price not found dialog -->
+    <string name="price_not_found_price_not_found">Seçili tarihe ait fiyat bulunamadı</string>
+    <string name="price_not_found_possitive_button">Tamam</string>
+
+
+
+
+
 </resources>

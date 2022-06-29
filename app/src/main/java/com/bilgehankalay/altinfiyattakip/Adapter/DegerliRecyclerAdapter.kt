@@ -23,25 +23,25 @@ class DegerliRecyclerAdapter(private var degerliList : ArrayList<Degerli>) : Rec
         holder.degerliCardTasarimBinding.also {
             val sembol = degerli.getSembol()
             if (degerli.alis_dir == -1){
-                it.imageViewAlisFiyati.setImageResource(R.drawable.red_down_arrow)
-                it.textViewAlisFiyati.setTextColor(Color.parseColor("#FF0000"))
+                it.degerliCardTasarimImageViewAlisFiyati.setImageResource(R.drawable.red_down_arrow)
+                it.degerliCardTasarimTextViewAlisFiyati.setTextColor(Color.parseColor("#FF0000"))
             }
             else if (degerli.alis_dir == 1){
-                it.imageViewAlisFiyati.setImageResource(R.drawable.green_up_arrow)
-                it.textViewAlisFiyati.setTextColor(Color.parseColor("#42FF00"))
+                it.degerliCardTasarimImageViewAlisFiyati.setImageResource(R.drawable.green_up_arrow)
+                it.degerliCardTasarimTextViewAlisFiyati.setTextColor(Color.parseColor("#42FF00"))
             }
             if (degerli.satis_dir == -1){
-                it.imageViewSatisFiyati.setImageResource(R.drawable.red_down_arrow)
-                it.textViewSatisFiyati.setTextColor(Color.parseColor("#FF0000"))
+                it.degerliCardTasarimImageViewSatisFiyati.setImageResource(R.drawable.red_down_arrow)
+                it.degerliCardTasarimTextViewSatisFiyati.setTextColor(Color.parseColor("#FF0000"))
             }
             else if (degerli.satis_dir == 1){
-                it.imageViewSatisFiyati.setImageResource(R.drawable.green_up_arrow)
-                it.textViewSatisFiyati.setTextColor(Color.parseColor("#42FF00"))
+                it.degerliCardTasarimImageViewSatisFiyati.setImageResource(R.drawable.green_up_arrow)
+                it.degerliCardTasarimTextViewSatisFiyati.setTextColor(Color.parseColor("#42FF00"))
             }
-            it.textViewAciklama.text = degerli.aciklama
-            it.textViewAlisFiyati.text = "${degerli.alis} ${sembol}"
-            it.textViewSatisFiyati.text = "${degerli.satis} ${sembol}"
-            it.textViewCode.text = degerli.code
+            it.degerliCardTasarimTextViewAciklama.text = degerli.aciklama
+            it.degerliCardTasarimTextViewAlisFiyati.text = "${degerli.alis} ${sembol}"
+            it.degerliCardTasarimTextViewSatisFiyati.text = "${degerli.satis} ${sembol}"
+            it.degerliCardTasarimTextViewCode.text = degerli.code
         }
     }
 

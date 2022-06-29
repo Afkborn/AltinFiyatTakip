@@ -1,5 +1,6 @@
 package com.bilgehankalay.altinfiyattakip.Fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -28,7 +29,9 @@ class HomeScreen : Fragment() {
     private var guncelDegerliListArray : ArrayList<Degerli> = arrayListOf()
 
     private lateinit var degerliRecyclerAdapter : HomeScreenDegerliRecyclerAdapter
+
     private var toplamMiktar = 0f
+    private var toplamKarZarar = 0f
 
     private var dolarDegerli: Degerli? = null
     private var euroDegerli : Degerli? = null
@@ -49,7 +52,7 @@ class HomeScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        degerliRecyclerAdapter = HomeScreenDegerliRecyclerAdapter(myDegerliList,guncelDegerliListArray)
+        degerliRecyclerAdapter = HomeScreenDegerliRecyclerAdapter(myDegerliList)
         binding.homeScreenRecyclerViewDegerli.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.homeScreenRecyclerViewDegerli.adapter = degerliRecyclerAdapter
         binding.homeScreenRecyclerViewDegerli.setHasFixedSize(true)
@@ -66,27 +69,37 @@ class HomeScreen : Fragment() {
 
     private fun updateUI(){
         toplamMiktar = 0F
-
+        toplamKarZarar = 0F
         if (myDegerliList.isNotEmpty()){
             myDegerliList.forEach {  myDegerli ->
-                guncelDegerliListArray.forEach{ guncelDegerli ->
-                    if (myDegerli!!.code == guncelDegerli.code){
+                if (myDegerli != null){
                         if (myDegerli.getAciklama(1) == "TL"){
-                            toplamMiktar += myDegerli.miktar * guncelDegerli.alis
+                            toplamMiktar += myDegerli.toplamGuncelDeger
+                            toplamKarZarar += myDegerli.karZarar
                         }
                         else if (myDegerli.getAciklama(1) == "Dolar"){
-                            toplamMiktar += (myDegerli.miktar * guncelDegerli.alis) * dolarDegerli!!.alis
+                            toplamMiktar += myDegerli.toplamGuncelDeger * dolarDegerli!!.alis
+                            toplamKarZarar +=  myDegerli.karZarar * dolarDegerli!!.alis
                         }
                         else if (myDegerli.getAciklama(1) == "Euro"){
-                            toplamMiktar += (myDegerli.miktar * guncelDegerli.alis) * euroDegerli!!.alis
+                            toplamMiktar += myDegerli.toplamGuncelDeger * euroDegerli!!.alis
+                            toplamKarZarar += myDegerli.karZarar * euroDegerli!!.alis
                         }
 
-                    }
                 }
+
             }
         }
         val yuvarlananToplamMiktar = String.format("%.2f",toplamMiktar)
-        binding.homeScreenTextViewToplam.text = "${yuvarlananToplamMiktar} TL "
+        val yuvarlananToplamKarZarar = String.format("%.2f",toplamKarZarar)
+        if (toplamKarZarar >= 0.0f){
+            binding.homeScreenTextViewNetKarZarar.setTextColor(Color.parseColor("#42FF00"))
+        }
+        else {
+            binding.homeScreenTextViewNetKarZarar.setTextColor(Color.parseColor("#FF0000"))
+        }
+        binding.homeScreenTextViewToplam.text = "${yuvarlananToplamMiktar} TL"
+        binding.homeScreenTextViewNetKarZarar.text = "${yuvarlananToplamKarZarar} TL"
 
     }
     private fun loadDegerliFromDB(){
@@ -100,14 +113,17 @@ class HomeScreen : Fragment() {
             }
             loadDolarEuroAlisSatis()
             myDegerliList = degerliDB.degerliDAO().getAllUserDegerli()
-
+            myDegerliList.forEach {  myDegerli ->
+                if (myDegerli != null){
+                    myDegerli.setGuncelDegerli(guncelDegerliListArray.filter { it.code == myDegerli.code }[0])
+                }
+            }
             updateUI()
-            degerliRecyclerAdapter.updateRecyclerAdapter(myDegerliList,guncelDegerliListArray)
+            degerliRecyclerAdapter.updateRecyclerAdapter(myDegerliList)
         }
     }
 
     private fun loadDolarEuroAlisSatis(){
-
         dolarDegerli = guncelDegerliListArray.filter { it.code == "USDTRY" }[0]
         euroDegerli = guncelDegerliListArray.filter { it.code == "EURTRY" }[0]
 

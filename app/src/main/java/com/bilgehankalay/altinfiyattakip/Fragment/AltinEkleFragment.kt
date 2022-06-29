@@ -20,7 +20,6 @@ import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.R
-import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
 import com.bilgehankalay.altinfiyattakip.Response.PostAlisSatisResponse
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentAltinEkleBinding
 import retrofit2.Call
@@ -96,13 +95,13 @@ class AltinEkleFragment : Fragment() {
             degerliIsimlerListe
         )
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerDegerli.adapter = spinnerAdapter
+        binding.altinEkleSpinnerDegerli.adapter = spinnerAdapter
         setSpinnerListener()
 
-        binding.buttonTarihSec.setOnClickListener{
+        binding.altinEkleButtonTarihSec.setOnClickListener{
             setDatePickerDialog()
         }
-        binding.buttonEkle.setOnClickListener {
+        binding.altinEkleButtonEkle.setOnClickListener {
             if (guncelMi){
                 val gecisAction = AltinEkleFragmentDirections.altinEkleToOnay(seciliDegerli,true, alinacakMiktar)
                 findNavController().navigate(gecisAction)
@@ -143,8 +142,8 @@ class AltinEkleFragment : Fragment() {
                                         findNavController().navigate(gecisAction)
                                     }
                                     else{
-                                        ManuallyEnterPriceDialogFragment().show(
-                                            childFragmentManager, ManuallyEnterPriceDialogFragment.TAG
+                                        PriceNotFoundDialogFragment().show(
+                                            childFragmentManager, PriceNotFoundDialogFragment.TAG
                                         )
                                         isClickeble_Ekle  = !isClickeble_Ekle
                                     }
@@ -156,23 +155,15 @@ class AltinEkleFragment : Fragment() {
                                 ) {
                                     Toast.makeText(requireContext(),"Sunucu hatası daha sonra tekrar deneyin",Toast.LENGTH_LONG).show()
                                 }
-
                             }
                         )
                     }
                     else{
                         Toast.makeText(requireContext(),"Yanıt bekleniyor.",Toast.LENGTH_LONG).show()
                     }
-
-
                 }
-
-
             }
-
         }
-
-
     }
     private fun loadUIDegerli(seciliDegerliCode : String){
         seciliDegerli = degerliListArray.filter { it.code == seciliDegerliCode }[0]
@@ -199,7 +190,7 @@ class AltinEkleFragment : Fragment() {
     }
 
     private fun setSpinnerListener() {
-        binding.spinnerDegerli.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        binding.altinEkleSpinnerDegerli.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 binding.altinEkleEditTextFrom.setText("")
                 binding.altinEkleEditTextTo.setText("")
@@ -208,21 +199,17 @@ class AltinEkleFragment : Fragment() {
                 isSelectDegerli = true
                 loadUIDegerli(seciliDegerliCode)
             }
-
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
+            override fun onNothingSelected(p0: AdapterView<*>?){}
         }
     }
 
     private fun setRadioButtonListener(){
-        binding.radioGroupSecim.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener{ _, checkdId ->
-            if (checkdId == R.id.radioButton_simdiAldim){
+        binding.altinEkleRadioGroupSecim.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener{ _, checkdId ->
+            if (checkdId == R.id.altinEkle_radioButton_simdiAldim){
                 showFiyatConstraint()
                 guncelMi = true
             }
-            else if (checkdId == R.id.radioButton_gecmisZamanliAldim){
+            else if (checkdId == R.id.altinEkle_radioButton_gecmisZamanliAldim){
                 showTarihConstraint()
                 guncelMi = false
             }
@@ -264,7 +251,7 @@ class AltinEkleFragment : Fragment() {
             calendarTarih.add(Calendar.DAY_OF_MONTH,8) // 8 gün eklemekteki amaç çıkartılan 4 gün önce ve 4 gün sonrayı hesaplamak
             tarihT2 = "${calendarTarih.get(Calendar.YEAR)}-${calendarTarih.get(Calendar.MONTH)}-${calendarTarih.get(Calendar.DAY_OF_MONTH)}"
 
-            binding.editTextDate.setText(dayMonthYearText)
+            binding.altinEkleEditTextDate.setText(dayMonthYearText)
         }, year, month, day)
         dpd.show()
     }
