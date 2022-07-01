@@ -1,5 +1,7 @@
 package com.bilgehankalay.altinfiyattakip.Fragment
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -8,18 +10,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bilgehankalay.altinfiyattakip.Adapter.HomeScreenDegerliRecyclerAdapter
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
+import com.bilgehankalay.altinfiyattakip.Global.DB_REFRESH_TIME
+
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
-import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
+
 import com.bilgehankalay.altinfiyattakip.R
-import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
+
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentHomeScreenBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 
 
 class HomeScreen : Fragment() {
@@ -58,17 +61,58 @@ class HomeScreen : Fragment() {
         binding.homeScreenRecyclerViewDegerli.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.homeScreenRecyclerViewDegerli.adapter = degerliRecyclerAdapter
         binding.homeScreenRecyclerViewDegerli.setHasFixedSize(true)
-
+        setRecyclerViewScrool()
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object:Runnable{
             override fun run() {
                 loadDegerliFromDB()
-                mainHandler.postDelayed(this,1000)
+                mainHandler.postDelayed(this, DB_REFRESH_TIME)
             }
         })
 
     }
 
+    private fun setRecyclerViewScrool() {
+        val itemTouchHelperCallBack = object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val swipedDegerli = myDegerliList[viewHolder.adapterPosition]
+                if (swipedDegerli != null){
+                    deleteDegerliWithDialog(swipedDegerli, viewHolder.adapterPosition)
+                }
+
+            }
+
+
+        }
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallBack)
+        itemTouchHelper.attachToRecyclerView(binding.homeScreenRecyclerViewDegerli)
+    }
+    private fun deleteDegerliWithDialog(swipedDegerli : Degerli, adapterPosition : Int){
+        lateinit var dialog: AlertDialog
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Sil?")
+        builder.setMessage("${swipedDegerli.miktar} ${swipedDegerli.getAciklama()}'ı silmek ister misiniz?")
+
+        val dialogClickListener = DialogInterface.OnClickListener{_,which ->
+            when(which){
+                DialogInterface.BUTTON_POSITIVE -> {
+                    degerliDB.degerliDAO().degerliSil(swipedDegerli)
+                    myDegerliList.drop(adapterPosition)
+                }
+            }
+        }
+        builder.setPositiveButton(R.string.possitive_button,dialogClickListener)
+        builder.setNegativeButton(R.string.negative_button,dialogClickListener)
+        dialog = builder.create()
+        dialog.show()
+    }
     private fun updateUI(){
         toplamMiktar = 0F
         toplamKarZarar = 0F
@@ -107,6 +151,7 @@ class HomeScreen : Fragment() {
         binding.homeScreenTextViewNetKarZarar.text = "${yuvarlananToplamKarZarar} TL"
 
     }
+
     private fun loadDegerliFromDB(){
         val degerliListA : List<Degerli?> =  degerliDB.degerliDAO().getAllAPIDegerli()
         if (degerliListA.isNotEmpty()){

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bilgehankalay.altinfiyattakip.Adapter.DegerliRecyclerAdapter
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
+import com.bilgehankalay.altinfiyattakip.Global.DB_REFRESH_TIME
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.R
@@ -56,7 +57,7 @@ class DegerliListe : Fragment() {
             override fun run() {
                 updateDegerliListFromDB()
                 degerliAdapter.setDegerliList(degerliListArray)
-                mainHandler.postDelayed(this,1000)
+                mainHandler.postDelayed(this, DB_REFRESH_TIME)
             }
         })
     }

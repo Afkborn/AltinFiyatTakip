@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
+import com.bilgehankalay.altinfiyattakip.R
 import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentOnayBinding
 import retrofit2.Call
@@ -58,6 +59,7 @@ class OnayFragment : Fragment() {
                     mainHandler.postDelayed(this,1000)
                 }
             })
+
         }
 
         binding.onayFabOk.setOnClickListener {
@@ -74,22 +76,26 @@ class OnayFragment : Fragment() {
         }
     }
     private fun getDateTime(s: Float): String? {
-        try {
+        return try {
             val sdf = SimpleDateFormat("dd/MM/yyyy")
             val netDate = Date((s * 1000).toLong())
-            return sdf.format(netDate)
+            sdf.format(netDate)
         } catch (e: Exception) {
-            return e.toString()
+            e.toString()
         }
     }
 
     private fun degerliYukle(){
-        val splitedAciklama = gelenDegerli.aciklama.split("/")
+        try {
+            binding.onayTextViewSatis.text = getString(R.string.onay_screen_satisTextView,gelenDegerli.satis,gelenDegerli.getSembol())
+            binding.onayTextViewAlis.text = getString(R.string.onay_screen_alisTextView,gelenDegerli.alis,gelenDegerli.getSembol())
+            binding.onayTextViewOzet.text = getString(R.string.onay_screen_ozetTextView,miktar,gelenDegerli.getAciklama(), (miktar * gelenDegerli.satis),gelenDegerli.getAciklama(1))
+            binding.onayTextViewTarih.text = getString(R.string.onay_screen_tarihTextView,getDateTime(gelenDegerli.tarih))
+        }
+        catch (e : Exception){
+            println(e.localizedMessage)
+        }
 
-        binding.onayTextViewSatis.text = "${gelenDegerli.satis} ${gelenDegerli.getSembol()}"
-        binding.onayTextViewAlis.text = "${gelenDegerli.alis} ${gelenDegerli.getSembol()}"
-        binding.onayTextViewOzet.text = "${miktar} ${splitedAciklama[0]} = ${miktar * gelenDegerli.satis} ${splitedAciklama[1]}"
-        binding.onayTextViewTarih.text = "Tarih ${getDateTime(gelenDegerli.tarih)}"
     }
 
     private fun sayacBaslat(){
@@ -100,7 +106,13 @@ class OnayFragment : Fragment() {
         else{
             sayac -= 1
         }
-        binding.onayTextViewSayac.text = "${sayac} saniye"
+        try {
+            binding.onayTextViewSayac.text = getString(R.string.onay_screen_kalan_saniye,sayac)//"${sayac} saniye"
+        }
+        catch (e : Exception){
+            println(e.localizedMessage)
+        }
+
 
     }
     private fun fiyatGuncelle(){

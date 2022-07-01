@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
+import com.bilgehankalay.altinfiyattakip.Global.DB_REFRESH_TIME
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.R
@@ -79,7 +80,7 @@ class AltinEkleFragment : Fragment() {
         mainHandler.post(object:Runnable{
             override fun run() {
                 updateDegerliFromDB()
-                mainHandler.postDelayed(this,1000)
+                mainHandler.postDelayed(this, DB_REFRESH_TIME)
             }
         })
 
@@ -109,10 +110,10 @@ class AltinEkleFragment : Fragment() {
             else{
                 val gecmisMiktar = binding.altinEkleEditTextGecmisMiktar.text.toString().toFloatOrNull()
                 if (tarihT1 == "" || tarihT2 == ""){
-                    Toast.makeText(requireContext(),"Tarih seçin",Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),R.string.altinEkle_screen_error_pick_date,Toast.LENGTH_LONG).show()
                 }
                 else if ((gecmisMiktar == null) || (gecmisMiktar <= 0F)){
-                    Toast.makeText(requireContext(),"Bir değer girin ",Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),R.string.altinEkle_screen_error_enter_value,Toast.LENGTH_LONG).show()
                 }
                 else{
                     if (isClickeble_Ekle){
@@ -153,13 +154,13 @@ class AltinEkleFragment : Fragment() {
                                     call: Call<PostAlisSatisResponse>,
                                     t: Throwable
                                 ) {
-                                    Toast.makeText(requireContext(),"Sunucu hatası daha sonra tekrar deneyin",Toast.LENGTH_LONG).show()
+                                    Toast.makeText(requireContext(),R.string.altinEkle_screen_error_server,Toast.LENGTH_LONG).show()
                                 }
                             }
                         )
                     }
                     else{
-                        Toast.makeText(requireContext(),"Yanıt bekleniyor.",Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireContext(),R.string.altinEkle_screen_waiting_reply_from_server,Toast.LENGTH_LONG).show()
                     }
                 }
             }

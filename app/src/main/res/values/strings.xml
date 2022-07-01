@@ -1,5 +1,9 @@
 <resources>
 
+    <!-- GLOBAL -->
+    <string name="possitive_button">Evet</string>
+    <string name="negative_button">Hayır</string>
+
     <!-- splash screen -->
     <string name="app_name">Altin Fiyat Takip</string>
     <string name="splash_screen_logo_desc">Altın Fiyat Takip Logo</string>
@@ -30,10 +34,19 @@
     <string name="altinEkle_screen_satis_text">Satış:</string>
     <string name="altinEkle_screen_to_editText">to</string>
     <string name="altinEkle_screen_from_editText">from</string>
+    <string name="altinEkle_screen_error_pick_date">Tarih seçin!</string>
+    <string name="altinEkle_screen_error_enter_value">Miktar girin!</string>
+    <string name="altinEkle_screen_error_server">Sunucu hatası, daha sonra tekrar deneyin.</string>
+    <string name="altinEkle_screen_waiting_reply_from_server">Sunucudan yanıt bekleniyor.</string>
 
     <!--onay screen-->
     <string name="onay_screen_alisFiyati">Alış Fiyatı</string>
     <string name="onay_screen_satisFiyati">Satış Fiyatı</string>
+    <string name="onay_screen_kalan_saniye">%1s saniye.</string>
+    <string name="onay_screen_satisTextView">%.2f %2s</string>
+    <string name="onay_screen_alisTextView">%.2f %2s</string>
+    <string name="onay_screen_tarihTextView">Tarih %2s </string>
+    <string name="onay_screen_ozetTextView">%.2f %2s = %.2f %4s </string>
 
     <!-- degerli liste screen -->
     <string name="degerli_screen_rb_gold">Altın</string>
