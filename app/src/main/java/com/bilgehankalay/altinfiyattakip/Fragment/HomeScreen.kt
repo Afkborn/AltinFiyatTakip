@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bilgehankalay.altinfiyattakip.Adapter.HomeScreenDegerliRecyclerAdapter
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
+import com.bilgehankalay.altinfiyattakip.R
 import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentHomeScreenBinding
 import retrofit2.Call
@@ -92,11 +94,14 @@ class HomeScreen : Fragment() {
         }
         val yuvarlananToplamMiktar = String.format("%.2f",toplamMiktar)
         val yuvarlananToplamKarZarar = String.format("%.2f",toplamKarZarar)
-        if (toplamKarZarar >= 0.0f){
-            binding.homeScreenTextViewNetKarZarar.setTextColor(Color.parseColor("#42FF00"))
-        }
-        else {
-            binding.homeScreenTextViewNetKarZarar.setTextColor(Color.parseColor("#FF0000"))
+        try{
+            if (toplamKarZarar >= 0.0f){
+                binding.homeScreenTextViewNetKarZarar.setTextColor(Color.parseColor("#42FF00"))
+            }
+            else {
+                binding.homeScreenTextViewNetKarZarar.setTextColor(Color.parseColor("#FF0000"))
+            }
+        }catch(e: Exception){
         }
         binding.homeScreenTextViewToplam.text = "${yuvarlananToplamMiktar} TL"
         binding.homeScreenTextViewNetKarZarar.text = "${yuvarlananToplamKarZarar} TL"

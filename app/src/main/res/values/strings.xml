@@ -35,8 +35,9 @@
     <string name="onay_screen_alisFiyati">Alış Fiyatı</string>
     <string name="onay_screen_satisFiyati">Satış Fiyatı</string>
 
-
-
+    <!-- degerli liste screen -->
+    <string name="degerli_screen_rb_gold">Altın</string>
+    <string name="degerli_screen_rb_rate">Kur</string>
 
     <!--price not found dialog -->
     <string name="price_not_found_price_not_found">Seçili tarihe ait fiyat bulunamadı</string>

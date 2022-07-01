@@ -29,7 +29,7 @@ data class Degerli(
     @Ignore var toplamEskiDeger: Float = 0.0f
     @Ignore var toplamGuncelDeger : Float = 0.0f
     @Ignore var karZarar : Float = 0.0f
-
+    @Ignore var isGold : Boolean = false
     fun setGuncelDegerli(guncelDegerli: Degerli){
         toplamEskiDeger = miktar * satis
         toplamGuncelDeger = guncelDegerli.alis * miktar

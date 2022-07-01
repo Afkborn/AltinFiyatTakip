@@ -26,6 +26,7 @@ class DegerliListe : Fragment() {
     private lateinit var degerliAdapter : DegerliRecyclerAdapter
 
     private lateinit var degerliDB : DegerliDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         degerliDB = DegerliDatabase.getirDegerliDatabase(requireContext())!!

@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout_degerliListe"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.DegerliListe" >
+    tools:context=".Fragment.DegerliListe">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_degerli"
@@ -13,6 +13,43 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/degerliListe_rb_altin"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <RadioButton
+                android:id="@+id/degerliListe_rb_altin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/degerli_screen_rb_gold" />
+
+            <RadioButton
+                android:id="@+id/degerliListe_rb_rate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/degerli_screen_rb_rate" />
+        </RadioGroup>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,4 +14,10 @@
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#000000</color>
     <color name="blue">#404E95</color>
+
+    <color name="redLight">#FFFF5E5E</color>
+    <color name="green">#9FFA7F</color>
+    <color name="homeScreenBG">#4E4D4D</color>
+    <color name="whiteTextColor">#FFFFFFFF</color>
+    <color name="blackgrey">#2A3136</color>
 </resources>
