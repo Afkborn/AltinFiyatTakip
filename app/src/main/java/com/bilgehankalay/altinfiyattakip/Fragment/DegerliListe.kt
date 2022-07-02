@@ -22,11 +22,12 @@ import retrofit2.Response
 
 
 class DegerliListe : Fragment() {
-    private var degerliListArray : ArrayList<Degerli> = arrayListOf()
+
     private lateinit var binding : FragmentDegerliListeBinding
     private lateinit var degerliAdapter : DegerliRecyclerAdapter
-
     private lateinit var degerliDB : DegerliDatabase
+    private var degerliListArray : ArrayList<Degerli> = arrayListOf()
+    private var altinMi = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,19 +51,38 @@ class DegerliListe : Fragment() {
         degerliAdapter = DegerliRecyclerAdapter(degerliListArray)
         binding.recyclerViewDegerli.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.recyclerViewDegerli.adapter = degerliAdapter
-
         binding.recyclerViewDegerli.setHasFixedSize(true)
+
+        binding.degerliListeSwitchAltinDoviz.setOnClickListener {
+            if (binding.degerliListeSwitchAltinDoviz.isChecked){
+                altinMi = false
+                binding.degerliListeSwitchAltinDoviz.setText(R.string.altinEkle_screen_switch_on)
+                binding.degerliListeSwitchAltinDoviz.setText(R.string.altinEkle_screen_dovizler)
+                updateDegerliListFromDB()
+            }
+            else{
+                altinMi = true
+                binding.degerliListeSwitchAltinDoviz.setText(R.string.altinEkle_screen_switch_off)
+                binding.degerliListeSwitchAltinDoviz.setText(R.string.altinEkle_screen_altinlar)
+                updateDegerliListFromDB()
+
+            }
+        }
+
         val mainHandler = Handler(Looper.getMainLooper())
         mainHandler.post(object:Runnable{
             override fun run() {
                 updateDegerliListFromDB()
-                degerliAdapter.setDegerliList(degerliListArray)
                 mainHandler.postDelayed(this, DB_REFRESH_TIME)
             }
         })
     }
     private fun updateDegerliListFromDB(){
-        val degerliListA : List<Degerli?> =  degerliDB.degerliDAO().getAllAPIDegerli()
+        val degerliListA : List<Degerli?> = if (altinMi){
+            degerliDB.degerliDAO().getAllAPIAltın()
+        } else{
+            degerliDB.degerliDAO().getAllAPIDoviz()
+        }
         if (degerliListA.isNotEmpty()){
             degerliListArray.clear()
             degerliListA.forEach {
@@ -70,6 +90,7 @@ class DegerliListe : Fragment() {
                     degerliListArray.add(it)
                 }
             }
+            degerliAdapter.setDegerliList(degerliListArray)
         }
 
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
+import com.bilgehankalay.altinfiyattakip.Global.DATE_FORMAT_PATTERN
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.R
@@ -77,7 +78,7 @@ class OnayFragment : Fragment() {
     }
     private fun getDateTime(s: Float): String? {
         return try {
-            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            val sdf = SimpleDateFormat(DATE_FORMAT_PATTERN)
             val netDate = Date((s * 1000).toLong())
             sdf.format(netDate)
         } catch (e: Exception) {

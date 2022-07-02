@@ -58,6 +58,7 @@ class HomeScreen : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         degerliRecyclerAdapter = HomeScreenDegerliRecyclerAdapter(myDegerliList)
+        degerliRecyclerAdapter.onItemClick = ::secilenDegerliOnClick
         binding.homeScreenRecyclerViewDegerli.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
         binding.homeScreenRecyclerViewDegerli.adapter = degerliRecyclerAdapter
         binding.homeScreenRecyclerViewDegerli.setHasFixedSize(true)
@@ -140,10 +141,12 @@ class HomeScreen : Fragment() {
         val yuvarlananToplamKarZarar = String.format("%.2f",toplamKarZarar)
         try{
             if (toplamKarZarar >= 0.0f){
-                binding.homeScreenTextViewNetKarZarar.setTextColor(Color.parseColor("#42FF00"))
+                binding.homeScreenTextViewNetKarZarar.setTextColor(resources.getColor(R.color.green))
+                binding.homeScreenImageViewIcon.setImageResource(R.drawable.green_up_arrow)
             }
             else {
-                binding.homeScreenTextViewNetKarZarar.setTextColor(Color.parseColor("#FF0000"))
+                binding.homeScreenTextViewNetKarZarar.setTextColor(resources.getColor(R.color.redLight))
+                binding.homeScreenImageViewIcon.setImageResource(R.drawable.red_down_arrow)
             }
         }catch(e: Exception){
         }
@@ -177,6 +180,10 @@ class HomeScreen : Fragment() {
         dolarDegerli = guncelDegerliListArray.filter { it.code == "USDTRY" }[0]
         euroDegerli = guncelDegerliListArray.filter { it.code == "EURTRY" }[0]
 
+    }
+
+    private fun secilenDegerliOnClick(gelenDegerli : Degerli){
+        println(gelenDegerli) // TODO varlığı detaylı gösterilen ekrana götür
     }
 
 }

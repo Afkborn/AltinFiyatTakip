@@ -10,13 +10,19 @@
 
     <!-- button_nav -->
     <string name="button_nav_home">Ana Sayfa</string>
-    <string name="button_nav_add_valuable">Degerli Ekle</string>
+    <string name="button_nav_add_valuable">Ekle</string>
     <string name="button_nav_live_market">Canlı Piyasa</string>
     <string name="button_nav_my_assets">Varlıklarım</string>
 
     <!-- home screen -->
     <string name="home_screen_my_assets">Varlıklarım</string>
 
+    <!-- home screen degerli recycler adapter-->
+    <string name="home_screen_degerli_ra_isimAltin">%1d %2s</string>
+    <string name="home_screen_degerli_ra_isimDoviz">%.2f %2s</string>
+    <string name="home_screen_degerli_ra_tarih">%1s</string>
+    <string name="home_screen_degerli_ra_toplam">%.2f %2s</string>
+    <string name="home_screen_degerli_ra_karZarar">%.2f %2s</string>
 
     <!-- degerli card -->
     <string name="degerli_card_satis_text">Satış:</string>
@@ -24,6 +30,7 @@
 
     <!-- altin ekle screen-->
     <string name="altinEkle_screen_altinlar">Altınlar</string>
+    <string name="altinEkle_screen_dovizler">Dövizler</string>
     <string name="altinEkle_screen_radioButton_simdi">Şimdi Aldım</string>
     <string name="altinEkle_screen_radioButton_gecmis">Geçmiş Zamanlı Aldım</string>
     <string name="altinEkle_screen_date_hint">GG:AA:YYYY</string>
@@ -38,6 +45,8 @@
     <string name="altinEkle_screen_error_enter_value">Miktar girin!</string>
     <string name="altinEkle_screen_error_server">Sunucu hatası, daha sonra tekrar deneyin.</string>
     <string name="altinEkle_screen_waiting_reply_from_server">Sunucudan yanıt bekleniyor.</string>
+    <string name="altinEkle_screen_switch_off">Altın</string>
+    <string name="altinEkle_screen_switch_on">Döviz</string>
 
     <!--onay screen-->
     <string name="onay_screen_alisFiyati">Alış Fiyatı</string>
@@ -51,6 +60,14 @@
     <!-- degerli liste screen -->
     <string name="degerli_screen_rb_gold">Altın</string>
     <string name="degerli_screen_rb_rate">Kur</string>
+    <string name="degerli_screen_switch_off">Altın</string>
+    <string name="degerli_screen_switch_on">Döviz</string>
+
+    <!-- degerli liste recycler adapter -->
+    <string name="degerli_ra_aciklama">%1s</string>
+    <string name="degerli_ra_alis_fiyati">%.2f %2s</string>
+    <string name="degerli_ra_satis_fiyati">%.2f %2s</string>
+    <string name="degerli_ra_code">%1s</string>
 
     <!--price not found dialog -->
     <string name="price_not_found_price_not_found">Seçili tarihe ait fiyat bulunamadı</string>

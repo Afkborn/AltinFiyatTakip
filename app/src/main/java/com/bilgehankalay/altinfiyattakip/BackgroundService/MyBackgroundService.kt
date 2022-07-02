@@ -30,6 +30,7 @@ class MyBackgroundService : Service() {
                     }
                     guncelDegerliList.forEach {
                         it.isUserData = false
+                        it.isAltin = "Altın" in it.aciklama
                         val result = degerliDB.degerliDAO().getIDFromAPIDegerli(it.code)
                         if (result == null)
                             degerliDB.degerliDAO().degerliEkle(it)

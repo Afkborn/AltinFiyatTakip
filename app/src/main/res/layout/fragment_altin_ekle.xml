@@ -7,20 +7,33 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.AltinEkleFragment">
 
+    <Switch
+        android:id="@+id/altinEkle_switch_altinDoviz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="#FFFFFF"
+        android:checked="false"
+        android:minHeight="48dp"
+        android:text="@string/altinEkle_screen_switch_off"
+        app:layout_constraintBottom_toTopOf="@+id/altinEkle_textView_altinDoviz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Spinner
         android:id="@+id/altinEkle_spinner_degerli"
         android:layout_width="250dp"
         android:layout_height="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/altinEkle_textView_altinlar"
+        app:layout_constraintTop_toBottomOf="@+id/altinEkle_textView_altinDoviz"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/altinEkle_textView_altinlar"
+        android:id="@+id/altinEkle_textView_altinDoviz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="80dp"
         android:text="@string/altinEkle_screen_altinlar"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/altinEkle_spinner_degerli"
@@ -74,7 +87,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/altinEkle_radioGroup_secim"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <EditText
             android:id="@+id/altinEkle_editText_date"
@@ -83,13 +96,13 @@
             android:ems="10"
             android:enabled="false"
             android:hint="@string/altinEkle_screen_date_hint"
+            android:importantForAutofill="no"
             android:inputType="date"
             android:minHeight="48dp"
             android:textColorHint="#757575"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:importantForAutofill="no" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/altinEkle_button_tarihSec"
@@ -108,14 +121,14 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/altinEkle_screen_miktar"
+            android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:minHeight="48dp"
             android:textAlignment="center"
             android:textColorHint="#78909C"
             app:layout_constraintStart_toStartOf="@+id/altinEkle_editText_date"
             app:layout_constraintTop_toBottomOf="@+id/altinEkle_editText_date"
-            tools:ignore="SpeakableTextPresentCheck"
-            android:importantForAutofill="no" />
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/altinEkle_textView_fromTextTarih"
@@ -137,7 +150,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/altinEkle_radioGroup_secim"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <Space
             android:layout_width="wrap_content"
@@ -211,7 +224,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/altinEkle_linearLayout_fiyat"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <EditText
             android:id="@+id/altinEkle_editText_from"

@@ -20,7 +20,14 @@ interface DegerliRoomDAO {
     @Query("SELECT * FROM degerliler WHERE isUserData == 0 ")
     fun getAllAPIDegerli() : List<Degerli?>
 
+    @Query("SELECT * FROM degerliler WHERE isUserData == 0 AND isAltin == 1")
+    fun getAllAPIAltın() : List<Degerli?>
+
+    @Query("SELECT * FROM degerliler WHERE isUserData == 0 AND isAltin == 0")
+    fun getAllAPIDoviz() : List<Degerli?>
+
     @Query("SELECT id FROM degerliler WHERE isUserData == 0 AND code == :code")
     fun getIDFromAPIDegerli(code : String) : Int?
+
 
 }

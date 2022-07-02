@@ -41,16 +41,15 @@ class DegerliRecyclerAdapter(private var degerliList : ArrayList<Degerli>) : Rec
                 it.degerliCardTasarimImageViewSatisFiyati.setImageResource(R.drawable.green_up_arrow)
                 it.degerliCardTasarimTextViewSatisFiyati.setTextColor(ContextCompat.getColor(context,R.color.green))
             }
-            it.degerliCardTasarimTextViewAciklama.text = degerli.aciklama
-            it.degerliCardTasarimTextViewAlisFiyati.text = "${degerli.alis} ${sembol}"
-            it.degerliCardTasarimTextViewSatisFiyati.text = "${degerli.satis} ${sembol}"
-            it.degerliCardTasarimTextViewCode.text = degerli.code
+            it.degerliCardTasarimTextViewAciklama.text = context.getString(R.string.degerli_ra_aciklama,degerli.aciklama)
+            it.degerliCardTasarimTextViewAlisFiyati.text = context.getString(R.string.degerli_ra_alis_fiyati,degerli.alis,sembol)
+            it.degerliCardTasarimTextViewSatisFiyati.text = context.getString(R.string.degerli_ra_satis_fiyati,degerli.satis,sembol)
+            it.degerliCardTasarimTextViewCode.text =  context.getString(R.string.degerli_ra_code,degerli.code)
         }
     }
 
     override fun getItemCount(): Int {
         return degerliList.size
-
     }
 
 

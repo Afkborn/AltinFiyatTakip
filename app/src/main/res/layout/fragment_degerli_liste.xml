@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/degerliListe_switch_altinDoviz">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -26,30 +26,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checkedButton="@id/degerliListe_rb_altin"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <RadioButton
-                android:id="@+id/degerliListe_rb_altin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/degerli_screen_rb_gold" />
-
-            <RadioButton
-                android:id="@+id/degerliListe_rb_rate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/degerli_screen_rb_rate" />
-        </RadioGroup>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Switch
+        android:id="@+id/degerliListe_switch_altinDoviz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="32dp"
+        android:text="@string/degerli_screen_switch_off"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,7 @@ import com.bilgehankalay.altinfiyattakip.DAO.DegerliRoomDAO
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 
 
-@Database(entities = [Degerli::class], version = 6)
+@Database(entities = [Degerli::class], version = 7)
 abstract class DegerliDatabase : RoomDatabase() {
     abstract fun degerliDAO() : DegerliRoomDAO
     companion object{

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -34,20 +35,19 @@ class AltinEkleFragment : Fragment() {
     private lateinit var binding : FragmentAltinEkleBinding
     private lateinit var seciliDegerli : Degerli
     private lateinit var seciliDegerliCode : String
-
-    var degerliListArray : ArrayList<Degerli> = arrayListOf()
-    private var guncelMi = true
+    private lateinit var spinnerAdapter : ArrayAdapter<*>
+    private lateinit var degerliDB : DegerliDatabase
     private lateinit var dayMonthYearText : String
+    private var degerliListArray : ArrayList<Degerli> = arrayListOf()
+    private var degerliIsimlerListe : ArrayList<String> = arrayListOf()
+    private var guncelMi = true
+    private var altinMi = true
     private var isSelectDegerli = false
     private var alinacakMiktar : Float = 0F
+    private var ui_epoch = 0F
     var tarihT1 = ""
     var tarihT2 = ""
-    private var ui_epoch = 0F
-    private var degerliIsimlerListe : ArrayList<String> = arrayListOf()
-    private lateinit var spinnerAdapter : ArrayAdapter<*>
     var isClickeble_Ekle = true
-
-    private lateinit var degerliDB : DegerliDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,6 +101,21 @@ class AltinEkleFragment : Fragment() {
 
         binding.altinEkleButtonTarihSec.setOnClickListener{
             setDatePickerDialog()
+        }
+        binding.altinEkleSwitchAltinDoviz.setOnClickListener {
+            if (binding.altinEkleSwitchAltinDoviz.isChecked){
+                altinMi = false
+                binding.altinEkleSwitchAltinDoviz.setText(R.string.altinEkle_screen_switch_on)
+                binding.altinEkleTextViewAltinDoviz.setText(R.string.altinEkle_screen_dovizler)
+                updateDegerliFromDB()
+
+            }
+            else{
+                altinMi = true
+                binding.altinEkleSwitchAltinDoviz.setText(R.string.altinEkle_screen_switch_off)
+                binding.altinEkleTextViewAltinDoviz.setText(R.string.altinEkle_screen_altinlar)
+                updateDegerliFromDB()
+            }
         }
         binding.altinEkleButtonEkle.setOnClickListener {
             if (guncelMi){
@@ -167,27 +182,35 @@ class AltinEkleFragment : Fragment() {
         }
     }
     private fun loadUIDegerli(seciliDegerliCode : String){
-        seciliDegerli = degerliListArray.filter { it.code == seciliDegerliCode }[0]
-        binding.altinEkleTextViewSatisFiyati.text = "${seciliDegerli.satis} ${seciliDegerli.getSembol()}"
-        binding.altinEkleTextViewAlisFiyati.text = "${seciliDegerli.alis} ${seciliDegerli.getSembol()}"
+        try {
+            seciliDegerli = degerliListArray.filter { it.code == seciliDegerliCode }[0]
+            binding.altinEkleTextViewSatisFiyati.text = "${seciliDegerli.satis} ${seciliDegerli.getSembol()}"
+            binding.altinEkleTextViewAlisFiyati.text = "${seciliDegerli.alis} ${seciliDegerli.getSembol()}"
 
-        val splitedAciklama = seciliDegerli.aciklama.split("/")
-        binding.altinEkleTextViewFromText.text = splitedAciklama[0]
-        binding.altinEkleTextViewToText.text = splitedAciklama[1]
-        binding.altinEkleTextViewFromTextTarih.text = splitedAciklama[0]
+            val splitedAciklama = seciliDegerli.aciklama.split("/")
+            binding.altinEkleTextViewFromText.text = splitedAciklama[0]
+            binding.altinEkleTextViewToText.text = splitedAciklama[1]
+            binding.altinEkleTextViewFromTextTarih.text = splitedAciklama[0]
 
-        if (seciliDegerli.alis_dir == -1){
-            binding.altinEkleImageViewAlisFiyati.setImageResource(R.drawable.red_down_arrow)
+            if (seciliDegerli.alis_dir == -1){
+                binding.altinEkleImageViewAlisFiyati.setImageResource(R.drawable.red_down_arrow)
+            }
+            else if (seciliDegerli.alis_dir == 1){
+                binding.altinEkleImageViewAlisFiyati.setImageResource(R.drawable.green_up_arrow)
+            }
+            if (seciliDegerli.satis_dir == -1){
+                binding.altinEkleImageViewSatisFiyati.setImageResource(R.drawable.red_down_arrow)
+            }
+            else if (seciliDegerli.satis_dir == 1){
+                binding.altinEkleImageViewSatisFiyati.setImageResource(R.drawable.green_up_arrow)
+            }
         }
-        else if (seciliDegerli.alis_dir == 1){
-            binding.altinEkleImageViewAlisFiyati.setImageResource(R.drawable.green_up_arrow)
+        catch (e : Exception){
+            seciliDegerli = degerliListArray[0]
+            this.seciliDegerliCode = seciliDegerli.code
+            loadUIDegerli(this.seciliDegerliCode)
         }
-        if (seciliDegerli.satis_dir == -1){
-            binding.altinEkleImageViewSatisFiyati.setImageResource(R.drawable.red_down_arrow)
-        }
-        else if (seciliDegerli.satis_dir == 1){
-            binding.altinEkleImageViewSatisFiyati.setImageResource(R.drawable.green_up_arrow)
-        }
+
     }
 
     private fun setSpinnerListener() {
@@ -258,7 +281,11 @@ class AltinEkleFragment : Fragment() {
     }
 
     private fun updateDegerliFromDB(){
-        val degerliListA : List<Degerli?> =  degerliDB.degerliDAO().getAllAPIDegerli()
+        val degerliListA : List<Degerli?> = if (altinMi){
+            degerliDB.degerliDAO().getAllAPIAltın()
+        } else{
+            degerliDB.degerliDAO().getAllAPIDoviz()
+        }
         if (degerliListA.isNotEmpty()){
             degerliListArray.clear()
             degerliIsimlerListe.clear()
@@ -270,8 +297,10 @@ class AltinEkleFragment : Fragment() {
             }
         }
         spinnerAdapter.notifyDataSetChanged()
-        if (isSelectDegerli)
+        if (isSelectDegerli){
             loadUIDegerli(seciliDegerliCode)
+        }
+
 
     }
 
