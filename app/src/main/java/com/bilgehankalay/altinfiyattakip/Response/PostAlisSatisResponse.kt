@@ -9,7 +9,7 @@ data class PostAlisSatisResponse(
     @SerializedName("code") @Expose var code : String,
     @SerializedName("tarih_baslangic") @Expose var tarih_baslangic : String,
     @SerializedName("tarih_bitis") @Expose var tarih_bitis : String,
-    @SerializedName("en_dusuk") @Expose var en_dusuk : String,
-    @SerializedName("en_yuksek") @Expose var en_yuksek : String,
+    @SerializedName("en_dusuk") @Expose var en_dusuk : Float,
+    @SerializedName("en_yuksek") @Expose var en_yuksek : Float,
     @SerializedName("alis_satis_gunler") @Expose var altinlar : List<Degerli>
 )

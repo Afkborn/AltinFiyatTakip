@@ -35,7 +35,7 @@ class HomeScreenDegerliRecyclerAdapter(private var myDegerliList : List<Degerli?
                 it.textViewDegerliToplam.text = context.getString(R.string.home_screen_degerli_ra_toplam, degerli.toplamGuncelDeger, degerli.getSembol())
                 it.textViewDegerliKarZarar.text = context.getString(R.string.home_screen_degerli_ra_karZarar, degerli.karZarar, degerli.getSembol())
 
-                if (degerli.isAltin){
+                if (degerli.isAltin || degerli.miktar.toInt().toFloat() == degerli.miktar){
                     it.textViewDegerliIsim.text = context.getString(R.string.home_screen_degerli_ra_isimAltin,degerli.miktar.toInt(),degerli.getAciklama())
                 }
                 else{
@@ -64,10 +64,10 @@ class HomeScreenDegerliRecyclerAdapter(private var myDegerliList : List<Degerli?
         this.notifyDataSetChanged()
     }
 
-    private fun getDateTime(s: Float): String? {
+    private fun getDateTime(s: Long): String? {
         try {
             val sdf = SimpleDateFormat(DATE_FORMAT_PATTERN)
-            val netDate = Date((s * 1000).toLong())
+            val netDate = Date((s * 1000))
             return sdf.format(netDate)
         } catch (e: Exception) {
             return e.toString()

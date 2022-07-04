@@ -14,7 +14,7 @@ data class Degerli(
     @ColumnInfo(name = "code")  @SerializedName("code") @Expose var code : String,
     @ColumnInfo(name = "alis")  @SerializedName("alis") @Expose var alis : Float,
     @ColumnInfo(name = "satis") @SerializedName("satis") @Expose var satis : Float,
-    @ColumnInfo(name = "tarih")  @SerializedName("tarih") @Expose var tarih : Float,
+    @ColumnInfo(name = "tarih")  @SerializedName("tarih") @Expose var tarih : Long,
     @ColumnInfo(name = "miktar") var miktar : Float,
     @ColumnInfo(name = "isUserData") var isUserData : Boolean,
     @ColumnInfo(name = "isAltin") var isAltin : Boolean,

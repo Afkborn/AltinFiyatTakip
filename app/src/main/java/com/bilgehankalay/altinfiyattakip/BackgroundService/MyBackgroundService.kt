@@ -5,9 +5,11 @@ import android.content.Intent
 import android.os.IBinder
 
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
+import com.bilgehankalay.altinfiyattakip.Global.BG_REFRESH_TIME
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
+import com.bilgehankalay.altinfiyattakip.Response.PostAlisSatisResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,16 +41,15 @@ class MyBackgroundService : Service() {
                             degerliDB.degerliDAO().degerliGuncelle(it)
                         }
                     }
-
                 }
-
                 override fun onFailure(call: Call<DegerliResponse>, t: Throwable) {
                     println(t.localizedMessage)
                 }
-
             }
         )
     }
+
+
 
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -56,7 +57,7 @@ class MyBackgroundService : Service() {
         Thread {
             while (true) {
                 degerliGetir()
-                Thread.sleep(3000)
+                Thread.sleep(BG_REFRESH_TIME)
             }
         }.start()
 

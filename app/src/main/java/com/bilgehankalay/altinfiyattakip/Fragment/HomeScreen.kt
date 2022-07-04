@@ -18,11 +18,16 @@ import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
 import com.bilgehankalay.altinfiyattakip.Global.DB_REFRESH_TIME
 
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
+import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 
 import com.bilgehankalay.altinfiyattakip.R
+import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
+import com.bilgehankalay.altinfiyattakip.Response.PostAlisSatisResponse
 
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentHomeScreenBinding
-
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class HomeScreen : Fragment() {

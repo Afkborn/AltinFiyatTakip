@@ -108,6 +108,10 @@ class AltinEkleFragment : Fragment() {
                 binding.altinEkleSwitchAltinDoviz.setText(R.string.altinEkle_screen_switch_on)
                 binding.altinEkleTextViewAltinDoviz.setText(R.string.altinEkle_screen_dovizler)
                 updateDegerliFromDB()
+                binding.altinEkleEditTextFrom.setText("")
+                binding.altinEkleEditTextGecmisMiktar.setText("")
+                binding.altinEkleEditTextFrom.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                binding.altinEkleEditTextGecmisMiktar.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
 
             }
             else{
@@ -115,6 +119,10 @@ class AltinEkleFragment : Fragment() {
                 binding.altinEkleSwitchAltinDoviz.setText(R.string.altinEkle_screen_switch_off)
                 binding.altinEkleTextViewAltinDoviz.setText(R.string.altinEkle_screen_altinlar)
                 updateDegerliFromDB()
+                binding.altinEkleEditTextFrom.setText("")
+                binding.altinEkleEditTextGecmisMiktar.setText("")
+                binding.altinEkleEditTextFrom.inputType = InputType.TYPE_CLASS_NUMBER
+                binding.altinEkleEditTextGecmisMiktar.inputType = InputType.TYPE_CLASS_NUMBER
             }
         }
         binding.altinEkleButtonEkle.setOnClickListener {
@@ -151,7 +159,6 @@ class AltinEkleFragment : Fragment() {
                                             }
                                         }
                                         val gelenDegerli = tempDegerli[enYakinIndex]
-                                        println(gelenDegerli)
                                         gelenDegerli.code = seciliDegerli.code
                                         gelenDegerli.aciklama = seciliDegerli.aciklama
                                         val gecisAction = AltinEkleFragmentDirections.altinEkleToOnay(gelenDegerli,false, alinacakMiktar)

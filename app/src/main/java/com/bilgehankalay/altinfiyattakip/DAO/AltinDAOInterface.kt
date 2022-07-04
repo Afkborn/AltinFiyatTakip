@@ -28,6 +28,12 @@ interface AltinDAOInterface {
         @Query("t2") t2 : String
     ) : Call<PostAlisSatisResponse>
 
+    @POST("/api/v2/altinlar/{code}")
+    fun allDateAl(
+        @Path("code") code: String,
+        @Query("all") all:Int = 1
+    ) : Call<PostAlisSatisResponse>
+
 
 
 }

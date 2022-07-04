@@ -87,7 +87,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/altinEkle_radioGroup_secim"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <EditText
             android:id="@+id/altinEkle_editText_date"
@@ -122,7 +122,7 @@
             android:ems="10"
             android:hint="@string/altinEkle_screen_miktar"
             android:importantForAutofill="no"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:minHeight="48dp"
             android:textAlignment="center"
             android:textColorHint="#78909C"
@@ -234,7 +234,7 @@
             android:ems="10"
             android:hint="@string/altinEkle_screen_from_editText"
             android:importantForAutofill="no"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:textAlignment="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -246,6 +246,7 @@
             android:layout_height="50dp"
             android:layout_marginEnd="32dp"
             android:ems="10"
+            android:enabled="false"
             android:hint="@string/altinEkle_screen_to_editText"
             android:importantForAutofill="no"
             android:inputType="numberDecimal"

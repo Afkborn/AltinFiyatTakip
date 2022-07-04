@@ -76,10 +76,10 @@ class OnayFragment : Fragment() {
             findNavController().navigate(gecisAction)
         }
     }
-    private fun getDateTime(s: Float): String? {
+    private fun getDateTime(s: Long): String? {
         return try {
             val sdf = SimpleDateFormat(DATE_FORMAT_PATTERN)
-            val netDate = Date((s * 1000).toLong())
+            val netDate = Date((s * 1000))
             sdf.format(netDate)
         } catch (e: Exception) {
             e.toString()
