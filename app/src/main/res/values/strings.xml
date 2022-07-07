@@ -21,8 +21,8 @@
     <string name="home_screen_degerli_ra_isimAltin">%1d %2s</string>
     <string name="home_screen_degerli_ra_isimDoviz">%.2f %2s</string>
     <string name="home_screen_degerli_ra_tarih">%1s</string>
-    <string name="home_screen_degerli_ra_toplam">%.2f %2s</string>
-    <string name="home_screen_degerli_ra_karZarar">%.2f %2s</string>
+    <string name="home_screen_degerli_ra_toplam">%1s %2s</string>
+    <string name="home_screen_degerli_ra_karZarar">%1s %2s</string>
 
     <!-- degerli card -->
     <string name="degerli_card_satis_text">Satış:</string>

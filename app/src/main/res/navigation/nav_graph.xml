@@ -8,7 +8,11 @@
         android:id="@+id/homeScreen2"
         android:name="com.bilgehankalay.altinfiyattakip.Fragment.HomeScreen"
         android:label="fragment_home_screen"
-        tools:layout="@layout/fragment_home_screen" />
+        tools:layout="@layout/fragment_home_screen" >
+        <action
+            android:id="@+id/homeScreen_to_Varliklarim"
+            app:destination="@id/varliklarim" />
+    </fragment>
     <fragment
         android:id="@+id/altinEkleFragment"
         android:name="com.bilgehankalay.altinfiyattakip.Fragment.AltinEkleFragment"
@@ -55,5 +59,9 @@
         android:id="@+id/varliklarim"
         android:name="com.bilgehankalay.altinfiyattakip.Fragment.Varliklarim"
         android:label="fragment_varliklarim"
-        tools:layout="@layout/fragment_varliklarim" />
+        tools:layout="@layout/fragment_varliklarim" >
+        <argument
+            android:name="clickedDegerli"
+            app:argType="com.bilgehankalay.altinfiyattakip.Model.Degerli" />
+    </fragment>
 </navigation>

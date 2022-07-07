@@ -30,11 +30,25 @@ data class Degerli(
     @Ignore var toplamEskiDeger: Float = 0.0f
     @Ignore var toplamGuncelDeger : Float = 0.0f
     @Ignore var karZarar : Float = 0.0f
-    @Ignore var isGold : Boolean = false
+
     fun setGuncelDegerli(guncelDegerli: Degerli){
         toplamEskiDeger = miktar * satis
         toplamGuncelDeger = guncelDegerli.alis * miktar
         karZarar = toplamGuncelDeger - toplamEskiDeger
+    }
+
+    fun getToplamGuncelDeger():String{
+        if (toplamGuncelDeger.toInt().toFloat() == toplamGuncelDeger){
+             return toplamGuncelDeger.toInt().toString()
+        }
+        return String.format("%.2f", toplamGuncelDeger)
+    }
+
+    fun getKarZarar() : String{
+        if (karZarar.toInt().toFloat() == karZarar){
+            return karZarar.toInt().toString()
+        }
+        return String.format("%.2f", karZarar)
     }
 
 
@@ -62,6 +76,11 @@ data class Degerli(
 
     fun getAciklama(type : Int = 0) : String{
         val aciklamaList = aciklama.split("/")
+        if (type == 0){
+            if ("Yeni" in aciklamaList[type]  || "Eski" in aciklamaList[type]){
+                return aciklamaList[type].replace("Yeni","").replace("Eski","")
+            }
+        }
         return aciklamaList[type]
     }
 }

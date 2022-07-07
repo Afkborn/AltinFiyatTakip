@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.IBinder
 
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
+
 import com.bilgehankalay.altinfiyattakip.Global.BG_REFRESH_TIME
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
+
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
-import com.bilgehankalay.altinfiyattakip.Response.PostAlisSatisResponse
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -43,7 +45,13 @@ class MyBackgroundService : Service() {
                     }
                 }
                 override fun onFailure(call: Call<DegerliResponse>, t: Throwable) {
-                    println(t.localizedMessage)
+                    if (t.localizedMessage == "timeout"){
+                        println("Sunucu offline")
+                    }
+                    else{
+                        println(t.localizedMessage)
+                    }
+
                 }
             }
         )
@@ -52,12 +60,17 @@ class MyBackgroundService : Service() {
 
 
 
+
+
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         degerliDB = DegerliDatabase.getirDegerliDatabase(this)!!
+
         Thread {
             while (true) {
                 degerliGetir()
                 Thread.sleep(BG_REFRESH_TIME)
+
             }
         }.start()
 

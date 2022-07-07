@@ -3,6 +3,7 @@ package com.bilgehankalay.altinfiyattakip.DAO
 import androidx.room.*
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 
+
 @Dao
 interface DegerliRoomDAO {
     @Insert()
@@ -29,5 +30,9 @@ interface DegerliRoomDAO {
     @Query("SELECT id FROM degerliler WHERE isUserData == 0 AND code == :code")
     fun getIDFromAPIDegerli(code : String) : Int?
 
+    @Query("SELECT * from degerliler WHERE code == :code")
+    fun getDegerliWithCode(code : String) : Degerli?
 
+    @Query("SELECT code FROM degerliler WHERE isUserData == 0")
+    fun getAllUserCode() : List<String>
 }

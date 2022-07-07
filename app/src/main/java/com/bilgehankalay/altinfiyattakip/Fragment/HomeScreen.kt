@@ -2,28 +2,24 @@ package com.bilgehankalay.altinfiyattakip.Fragment
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bilgehankalay.altinfiyattakip.Adapter.HomeScreenDegerliRecyclerAdapter
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
 import com.bilgehankalay.altinfiyattakip.Global.DB_REFRESH_TIME
-
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
-
 import com.bilgehankalay.altinfiyattakip.R
-import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
 import com.bilgehankalay.altinfiyattakip.Response.PostAlisSatisResponse
-
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentHomeScreenBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -76,7 +72,9 @@ class HomeScreen : Fragment() {
             }
         })
 
+
     }
+
 
     private fun setRecyclerViewScrool() {
         val itemTouchHelperCallBack = object : ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT){
@@ -188,7 +186,8 @@ class HomeScreen : Fragment() {
     }
 
     private fun secilenDegerliOnClick(gelenDegerli : Degerli){
-        println(gelenDegerli) // TODO varlığı detaylı gösterilen ekrana götür
+        val gecisAction = HomeScreenDirections.homeScreenToVarliklarim(gelenDegerli)
+        findNavController().navigate(gecisAction)
     }
 
 }

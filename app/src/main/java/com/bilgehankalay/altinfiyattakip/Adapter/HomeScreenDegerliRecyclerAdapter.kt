@@ -32,8 +32,9 @@ class HomeScreenDegerliRecyclerAdapter(private var myDegerliList : List<Degerli?
         if (degerli != null){
             holder.homeScreenDegerliCardTasarim.also {
                 it.textViewDegerliTarih.text = context.getString(R.string.home_screen_degerli_ra_tarih,getDateTime(degerli.tarih)) //getDateTime(degerli.tarih)
-                it.textViewDegerliToplam.text = context.getString(R.string.home_screen_degerli_ra_toplam, degerli.toplamGuncelDeger, degerli.getSembol())
-                it.textViewDegerliKarZarar.text = context.getString(R.string.home_screen_degerli_ra_karZarar, degerli.karZarar, degerli.getSembol())
+                it.textViewDegerliKarZarar.text = context.getString(R.string.home_screen_degerli_ra_karZarar, degerli.getKarZarar(), degerli.getSembol())
+                it.textViewDegerliToplam.text = context.getString(R.string.home_screen_degerli_ra_toplam, degerli.getToplamGuncelDeger(), degerli.getSembol())
+
 
                 if (degerli.isAltin || degerli.miktar.toInt().toFloat() == degerli.miktar){
                     it.textViewDegerliIsim.text = context.getString(R.string.home_screen_degerli_ra_isimAltin,degerli.miktar.toInt(),degerli.getAciklama())

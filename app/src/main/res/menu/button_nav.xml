@@ -3,5 +3,4 @@
     <item android:id="@+id/homeScreen2" android:icon="@drawable/home" android:title="@string/button_nav_home"/>
     <item android:id="@+id/altinEkleFragment" android:icon="@drawable/add" android:title="@string/button_nav_add_valuable"/>
     <item android:id="@+id/degerliListe" android:icon="@drawable/list" android:title="@string/button_nav_live_market" />
-    <item android:id="@+id/varliklarim" android:icon="@drawable/assets" android:title="@string/button_nav_my_assets"/>
 </menu>

@@ -112,7 +112,6 @@ class AltinEkleFragment : Fragment() {
                 binding.altinEkleEditTextGecmisMiktar.setText("")
                 binding.altinEkleEditTextFrom.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
                 binding.altinEkleEditTextGecmisMiktar.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
-
             }
             else{
                 altinMi = true
@@ -152,7 +151,7 @@ class AltinEkleFragment : Fragment() {
                                         var enYakinTarih = 9999999999
                                         var enYakinIndex = 0
                                         tempDegerli.forEachIndexed { index, degerli ->
-                                            val fark = abs(degerli.tarih.toLong() - ui_epoch)
+                                            val fark = abs(degerli.tarih - ui_epoch)
                                             if ( fark < enYakinTarih ){
                                                 enYakinIndex = index
                                                 enYakinTarih = fark.toLong()
