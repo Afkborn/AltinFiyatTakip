@@ -64,4 +64,9 @@
             android:name="clickedDegerli"
             app:argType="com.bilgehankalay.altinfiyattakip.Model.Degerli" />
     </fragment>
+    <activity
+        android:id="@+id/serverErrorActivity"
+        android:name="com.bilgehankalay.altinfiyattakip.Activity.ServerErrorActivity"
+        android:label="activity_server_error"
+        tools:layout="@layout/activity_server_error" />
 </navigation>

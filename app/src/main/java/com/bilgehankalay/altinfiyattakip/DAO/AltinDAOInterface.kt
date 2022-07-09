@@ -3,6 +3,7 @@ package com.bilgehankalay.altinfiyattakip.DAO
 import com.bilgehankalay.altinfiyattakip.Response.AltinlarResponse
 import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
 import com.bilgehankalay.altinfiyattakip.Response.PostAlisSatisResponse
+import com.bilgehankalay.altinfiyattakip.Response.ServerStatusResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -34,6 +35,7 @@ interface AltinDAOInterface {
         @Query("all") all:Int = 1
     ) : Call<PostAlisSatisResponse>
 
-
+    @GET("/status")
+    fun getServerStatus() : Call<ServerStatusResponse>
 
 }

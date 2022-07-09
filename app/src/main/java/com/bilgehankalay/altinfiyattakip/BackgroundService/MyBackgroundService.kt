@@ -3,24 +3,27 @@ package com.bilgehankalay.altinfiyattakip.BackgroundService
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import com.bilgehankalay.altinfiyattakip.Activity.SplashActivity
 
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
 
 import com.bilgehankalay.altinfiyattakip.Global.BG_REFRESH_TIME
+import com.bilgehankalay.altinfiyattakip.Global.isServerOnline
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.Response.DegerliResponse
+import com.bilgehankalay.altinfiyattakip.Response.ServerStatusResponse
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.HTTP
 
 
 class MyBackgroundService : Service() {
     private var guncelDegerliList : ArrayList<Degerli> = arrayListOf()
     private lateinit var degerliDB : DegerliDatabase
-
     private fun degerliGetir(){
         ApiUtils.altinDAOInterfaceGetir().altinlariAlV2().enqueue(
             object : Callback<DegerliResponse> {
@@ -45,35 +48,43 @@ class MyBackgroundService : Service() {
                     }
                 }
                 override fun onFailure(call: Call<DegerliResponse>, t: Throwable) {
-                    if (t.localizedMessage == "timeout"){
-                        println("Sunucu offline")
-                    }
-                    else{
-                        println(t.localizedMessage)
-                    }
+                    println(t.localizedMessage)
+                    isServerOnline = false
+                }
+            }
+        )
+    }
 
+    private fun getServerStatus(){
+        ApiUtils.serverDAOInterfaceGetir().getServerStatus().enqueue(
+            object : Callback<ServerStatusResponse>{
+                override fun onResponse(
+                    call: Call<ServerStatusResponse>,
+                    response: Response<ServerStatusResponse>,
+
+                ){
+                    when (response.body()!!.status){
+                        200 -> isServerOnline = true
+                    }
+                }
+                override fun onFailure(call: Call<ServerStatusResponse>, t: Throwable) {
+                    isServerOnline = false
                 }
             }
         )
     }
 
 
-
-
-
-
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         degerliDB = DegerliDatabase.getirDegerliDatabase(this)!!
-
         Thread {
+            getServerStatus()
+            Thread.sleep(2000)
             while (true) {
                 degerliGetir()
                 Thread.sleep(BG_REFRESH_TIME)
-
             }
         }.start()
-
         return super.onStartCommand(intent, flags, startId)
     }
 

@@ -10,6 +10,9 @@ class ApiUtils {
         fun altinDAOInterfaceGetir() : AltinDAOInterface{
             return RetrofitClient.getClient(BASE_URL).create(AltinDAOInterface::class.java)
         }
+        fun serverDAOInterfaceGetir() : AltinDAOInterface{
+            return  RetrofitClient.getClientServerStatus(BASE_URL).create(AltinDAOInterface::class.java)
+        }
 
     }
 }

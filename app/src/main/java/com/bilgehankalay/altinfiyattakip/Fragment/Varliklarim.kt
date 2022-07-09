@@ -9,18 +9,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.bilgehankalay.altinfiyattakip.Database.DegerliDatabase
+import com.bilgehankalay.altinfiyattakip.Global.DATE_FORMAT_PATTERN
 import com.bilgehankalay.altinfiyattakip.Global.DB_REFRESH_TIME
 import com.bilgehankalay.altinfiyattakip.Model.Degerli
 import com.bilgehankalay.altinfiyattakip.Network.ApiUtils
 import com.bilgehankalay.altinfiyattakip.R
 import com.bilgehankalay.altinfiyattakip.Response.PostAlisSatisResponse
 import com.bilgehankalay.altinfiyattakip.databinding.FragmentVarliklarimBinding
+import com.github.aachartmodel.aainfographics.aachartcreator.AAChartModel
+import com.github.aachartmodel.aainfographics.aachartcreator.AAChartType
+import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Varliklarim : Fragment() {
@@ -28,11 +35,14 @@ class Varliklarim : Fragment() {
     private lateinit var degerliDB : DegerliDatabase
     private val args : VarliklarimArgs by navArgs()
     private lateinit var selectedDegerli : Degerli
+    var allFiyatList : ArrayList<Degerli> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         degerliDB = DegerliDatabase.getirDegerliDatabase(requireContext())!!
         selectedDegerli = args.clickedDegerli
-        println(selectedDegerli)
+        loadUI()
+        getAllFiyatByCode(selectedDegerli.code)
+
     }
 
     override fun onCreateView(
@@ -45,20 +55,26 @@ class Varliklarim : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.button.setOnClickListener {
-                runBlocking {
-                    launch {
-                        getAllFiyatByCode(selectedDegerli.code)
-                    }
-                }
 
-        }
+
     }
 
+    private fun arearangeMixedLine(data : Array<Any>): AAChartModel {
+        return AAChartModel()
+            .title("TITLE")
+            .subtitle("SUB TITLE")
+            .series(arrayOf(
+                AASeriesElement()
+                    .name("PRICE")
+                    .color("#1E90FF")
+                    .type(AAChartType.Line)
+                    .data(data)
+                    .zIndex(0)
+                )
+            )
+    }
 
     private fun getAllFiyatByCode(code: String){
-        val startTime = System.currentTimeMillis()
-        var allFiyatList : ArrayList<Degerli> = arrayListOf()
         ApiUtils.altinDAOInterfaceGetir().allDateAl(code).enqueue(
             object  : Callback<PostAlisSatisResponse> {
                 override fun onResponse(
@@ -69,18 +85,24 @@ class Varliklarim : Fragment() {
                     tempList?.let {
                         allFiyatList = it as ArrayList<Degerli>
                     }
-                    val finishTime = System.currentTimeMillis()
-                    println("Getting ${code} finished in  ${(finishTime - startTime) / 1000.0} seconds.")
-
-
+                    loadChart()
                 }
-
                 override fun onFailure(call: Call<PostAlisSatisResponse>, t: Throwable) {
                     println("ERROR: ${t.localizedMessage}")
                 }
-
             }
         )
+    }
+
+    private fun loadChart(){
+        val data  : MutableList<Any> = arrayListOf()
+        allFiyatList.forEach {
+            data.add(arrayOf(it.tarih,it.satis))
+        }
+        binding.aaChartView.aa_drawChartWithChartModel(arearangeMixedLine(data.toTypedArray()))
+    }
+    private fun loadUI(){
+
     }
 
 }

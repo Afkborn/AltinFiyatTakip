@@ -4,9 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.bilgehankalay.altinfiyattakip.Global.DATE_FORMAT_PATTERN
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Entity(tableName = "degerliler")
 data class Degerli(
@@ -73,6 +76,7 @@ data class Degerli(
         }
         return ""
     }
+
 
     fun getAciklama(type : Int = 0) : String{
         val aciklamaList = aciklama.split("/")

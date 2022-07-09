@@ -8,6 +8,10 @@
     <string name="app_name">Altin Fiyat Takip</string>
     <string name="splash_screen_logo_desc">Altın Fiyat Takip Logo</string>
 
+    <!-- server error activity-->
+    <string name="server_error_screen_errorText">Sunucu Hatası!</string>
+    <string name="server_error_screen_errorDetail">Lütfen daha sonra tekrar deneyin</string>
+
     <!-- button_nav -->
     <string name="button_nav_home">Ana Sayfa</string>
     <string name="button_nav_add_valuable">Ekle</string>
@@ -72,9 +76,6 @@
     <!--price not found dialog -->
     <string name="price_not_found_price_not_found">Seçili tarihe ait fiyat bulunamadı</string>
     <string name="price_not_found_possitive_button">Tamam</string>
-
-
-
 
 
 </resources>
