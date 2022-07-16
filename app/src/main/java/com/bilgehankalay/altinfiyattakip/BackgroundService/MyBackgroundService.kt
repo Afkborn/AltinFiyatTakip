@@ -61,11 +61,17 @@ class MyBackgroundService : Service() {
                 override fun onResponse(
                     call: Call<ServerStatusResponse>,
                     response: Response<ServerStatusResponse>,
-
                 ){
-                    when (response.body()!!.status){
-                        200 -> isServerOnline = true
+                    try{
+                        when (response.body()!!.status){
+                            200 -> isServerOnline = true
+                        }
                     }
+                    catch (e : Exception){
+
+                        isServerOnline = false
+                    }
+
                 }
                 override fun onFailure(call: Call<ServerStatusResponse>, t: Throwable) {
                     isServerOnline = false
